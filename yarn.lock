@@ -3175,13 +3175,6 @@ twitch-chat-emotes-threejs@^0.2.0:
     three "^0.134.0"
     twitch-chat-emotes "^0.2.2"
 
-twitch-chat-emotes@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/twitch-chat-emotes/-/twitch-chat-emotes-0.2.1.tgz#74c58bfe6a4b65c12d3a9830d920ceab6b15a7e4"
-  integrity sha512-3z1p4+8wJdY2Pl+CBLcBJy1XsGkh3BlYiGS11LM0M+wUd/CJKh8u6S1+8xJOReITcw4ldTKupAtDw/DHJrladA==
-  dependencies:
-    tmi.js "^1.8.3"
-
 twitch-chat-emotes@^0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/twitch-chat-emotes/-/twitch-chat-emotes-0.2.2.tgz#58d2cb8b06ca2321a9ac1cc972b9c2ef1afe06fc"

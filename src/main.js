@@ -21,11 +21,12 @@ if (query_vars.channels) {
 
 const ChatInstance = new TwitchChat({
 	// If using planes, consider using MeshBasicMaterial instead of SpriteMaterial
-	materialType: THREE.SpriteMaterial,
+	materialType: THREE.MeshBasicMaterial,
 
 	// Passed to material options
 	materialOptions: {
 		transparent: true,
+		side: THREE.DoubleSide,
 	},
 
 	channels,
@@ -73,7 +74,6 @@ function draw() {
 
 	for (let index = sceneEmoteArray.length - 1; index >= 0; index--) {
 		const element = sceneEmoteArray[index];
-		element.position.addScaledVector(element.velocity, delta);
 		if (element.timestamp + element.lifespan < Date.now()) {
 			sceneEmoteArray.splice(index, 1);
 			scene.remove(element);
@@ -92,38 +92,95 @@ function draw() {
 ** Handle Twitch Chat Emotes
 */
 const sceneEmoteArray = [];
+const emoteGeometry = new THREE.PlaneGeometry(1, 1);
 ChatInstance.listen((emotes) => {
 	const group = new THREE.Group();
-	group.lifespan = 5000;
+	group.position.z = johnSoulsMesh.position.z - 1;
+	group.position.y = johnSoulsMesh.position.y;
+
+	//give the group a random normalized offset
+	const offset = new THREE.Vector3(
+		Math.random() * 2 - 1,
+		Math.random() * 2 - 1,
+		Math.random() * 2 - 1
+	).normalize().multiplyScalar(0.25);
+
+	const rotationOffset = new THREE.Vector3(
+		Math.random() * 2 - 1,
+		Math.random() * 2 - 1,
+		Math.random() * 2 - 1
+	).normalize().multiplyScalar(0.5);
+
+	group.scale.setScalar(0.5);
+	group.lifespan = 10000;
 	group.timestamp = Date.now();
+
+	group.flip = Math.random() > 0.5 ? 1 : -1;
 
 	let i = 0;
 	emotes.forEach((emote) => {
-		const sprite = new THREE.Sprite(emote.material);
+		const sprite = new THREE.Mesh(emoteGeometry, emote.material);
 		sprite.position.x = i;
 		group.add(sprite);
 		i++;
 	})
 
-	// Set velocity to a random normalized value
-	group.velocity = new THREE.Vector3(
-		(Math.random() - 0.5) * 2,
-		(Math.random() - 0.5) * 2,
-		(Math.random() - 0.5) * 2
-	);
-	group.velocity.normalize();
 
 	group.update = () => { // called every frame
 		let progress = (Date.now() - group.timestamp) / group.lifespan;
-		if (progress < 0.25) { // grow to full size in first quarter
-			group.scale.setScalar(progress * 4);
-		} else if (progress > 0.75) { // shrink to nothing in last quarter
-			group.scale.setScalar((1 - progress) * 4);
-		} else { // maintain full size in middle
-			group.scale.setScalar(1);
-		}
+		group.position.z = johnSoulsMesh.position.z - 1 + progress * 8 + offset.z;
+		group.position.x = (Math.sin(progress * Math.PI * 2) * 3) * group.flip + offset.x;
+		group.position.y = Math.sin(progress * Math.PI * 2) * 2 + johnSoulsMesh.position.y + offset.y;
+
+		group.rotation.x = progress * Math.PI * 2 + rotationOffset.x;
+		group.rotation.z = progress * Math.PI * 2 + rotationOffset.z;
 	}
 
 	scene.add(group);
 	sceneEmoteArray.push(group);
 });
+
+
+
+/*
+** Set up scene
+*/
+
+const johnSoulsPlane = new THREE.PlaneBufferGeometry(2, 3);
+
+const johnSoulsMesh = new THREE.Mesh(
+	johnSoulsPlane,
+	new THREE.MeshBasicMaterial({
+		color: 0x0000ff,
+	})
+);
+johnSoulsMesh.position.set(0, -2, -3);
+scene.add(johnSoulsMesh);
+
+const johnSoulsHelper = new THREE.BoxHelper(johnSoulsMesh);
+scene.add(johnSoulsHelper);
+
+
+const groundPlane = new THREE.Mesh(
+	new THREE.PlaneBufferGeometry(20, 10),
+	new THREE.MeshBasicMaterial({
+		color: 0x555555,
+	})
+);
+groundPlane.position.y = johnSoulsMesh.position.y - 1;
+groundPlane.rotation.x = -Math.PI / 2;
+const groundHelper = new THREE.BoxHelper(groundPlane, 0x000fff);
+scene.add(groundHelper);
+
+
+const wallPlane = new THREE.Mesh(
+	new THREE.PlaneBufferGeometry(20, 10),
+	new THREE.MeshBasicMaterial({
+		color: 0x555555,
+	})
+);
+wallPlane.position.z = -5;
+wallPlane.position.y = 2;
+
+const wallHelper = new THREE.BoxHelper(wallPlane, 0x000fff);
+scene.add(wallHelper);
