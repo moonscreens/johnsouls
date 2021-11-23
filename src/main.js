@@ -175,23 +175,25 @@ JohnHat.position.set(0, 9, -1);
 JohnHat.rotation.z = Math.PI / 4;
 johnSoulsMesh.add(JohnHat);
 
+const wallSize = 20;
+const groundSize = 13;
 
 import floorImageURL from "./floor.png";
 const groundPlane = new THREE.Mesh(
-	new THREE.PlaneBufferGeometry(30, 15),
+	new THREE.PlaneBufferGeometry(groundSize * 2, groundSize),
 	new THREE.MeshBasicMaterial({
 		map: new THREE.TextureLoader().load(floorImageURL),
 	})
 );
 groundPlane.rotation.x = -Math.PI / 2;
 scene.add(groundPlane);
-//const groundHelper = new THREE.BoxHelper(groundPlane, 0x000fff);
+//const groundHelper = new THREE.BoxHelper(groundPlane, 0xff0000);
 //scene.add(groundHelper);
 
 
 import wallImageURL from "./background.png";
 const wallPlane = new THREE.Mesh(
-	new THREE.PlaneBufferGeometry(30, 15),
+	new THREE.PlaneBufferGeometry(wallSize * 2, wallSize),
 	new THREE.MeshBasicMaterial({
 		//color: 0x555555,
 		map: new THREE.TextureLoader().load(wallImageURL),
@@ -199,8 +201,8 @@ const wallPlane = new THREE.Mesh(
 		opacity: 0.5,
 	})
 );
-wallPlane.position.z = -5;
-wallPlane.position.y = 5;
+wallPlane.position.z = -groundSize / 2;
+wallPlane.position.y = wallSize / 2;
 scene.add(wallPlane);
 //const wallHelper = new THREE.BoxHelper(wallPlane, 0x000fff);
 //scene.add(wallHelper);
