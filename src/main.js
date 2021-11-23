@@ -44,6 +44,8 @@ const camera = new THREE.PerspectiveCamera(
 	1000
 );
 camera.position.z = 5;
+camera.position.y = 0.75;
+camera.lookAt(0, 2.5, 0);
 
 const scene = new THREE.Scene();
 const renderer = new THREE.WebGLRenderer({ antialias: false });
@@ -115,7 +117,8 @@ ChatInstance.listen((emotes) => {
 	group.lifespan = 10000;
 	group.timestamp = Date.now();
 
-	group.flip = Math.random() > 0.5 ? 1 : -1;
+	group.flipX = Math.random() > 0.5 ? 1 : -1;
+	group.flipY = Math.random() > 0.5 ? 0 : -1;
 
 	let i = 0;
 	emotes.forEach((emote) => {
@@ -128,9 +131,9 @@ ChatInstance.listen((emotes) => {
 
 	group.update = () => { // called every frame
 		let progress = (Date.now() - group.timestamp) / group.lifespan;
-		group.position.z = johnSoulsMesh.position.z - 1 + progress * 8 + offset.z;
-		group.position.x = (Math.sin(progress * Math.PI * 2) * 3) * group.flip + offset.x;
-		group.position.y = Math.sin(progress * Math.PI * 2) * 2 + johnSoulsMesh.position.y + offset.y;
+		group.position.z = johnSoulsMesh.position.z - 1 + progress * 9 + offset.z;
+		group.position.x = (Math.sin(progress * Math.PI * 2) * 3) * group.flipX + offset.x;
+		group.position.y = Math.sin(progress * Math.PI * 2) * 1 * group.flipY + johnSoulsMesh.position.y + offset.y;
 
 		group.rotation.x = progress * Math.PI * 2 + rotationOffset.x;
 		group.rotation.z = progress * Math.PI * 2 + rotationOffset.z;
@@ -146,41 +149,58 @@ ChatInstance.listen((emotes) => {
 ** Set up scene
 */
 
-const johnSoulsPlane = new THREE.PlaneBufferGeometry(2, 3);
+import johnsmoulsURL from "./johnsmouls.png";
+const johnSoulsPlane = new THREE.PlaneBufferGeometry(3, 6);
 
 const johnSoulsMesh = new THREE.Mesh(
 	johnSoulsPlane,
 	new THREE.MeshBasicMaterial({
-		color: 0x0000ff,
+		map: new THREE.TextureLoader().load(johnsmoulsURL),
+		transparent: true,
 	})
 );
-johnSoulsMesh.position.set(0, -2, -3);
+johnSoulsMesh.position.set(0, 3, -3);
 scene.add(johnSoulsMesh);
 
-const johnSoulsHelper = new THREE.BoxHelper(johnSoulsMesh);
-scene.add(johnSoulsHelper);
+//const johnSoulsHelper = new THREE.BoxHelper(johnSoulsMesh);
+//scene.add(johnSoulsHelper);
 
-
-const groundPlane = new THREE.Mesh(
-	new THREE.PlaneBufferGeometry(20, 10),
+const JohnHat = new THREE.Mesh(
+	new THREE.PlaneBufferGeometry(8, 8),
 	new THREE.MeshBasicMaterial({
-		color: 0x555555,
+		color: 0xff0000,
+	}),
+)
+JohnHat.position.set(0, 9, -1);
+JohnHat.rotation.z = Math.PI / 4;
+johnSoulsMesh.add(JohnHat);
+
+
+import floorImageURL from "./floor.png";
+const groundPlane = new THREE.Mesh(
+	new THREE.PlaneBufferGeometry(30, 15),
+	new THREE.MeshBasicMaterial({
+		map: new THREE.TextureLoader().load(floorImageURL),
 	})
 );
-groundPlane.position.y = johnSoulsMesh.position.y - 1;
 groundPlane.rotation.x = -Math.PI / 2;
-const groundHelper = new THREE.BoxHelper(groundPlane, 0x000fff);
-scene.add(groundHelper);
+scene.add(groundPlane);
+//const groundHelper = new THREE.BoxHelper(groundPlane, 0x000fff);
+//scene.add(groundHelper);
 
 
+import wallImageURL from "./background.png";
 const wallPlane = new THREE.Mesh(
-	new THREE.PlaneBufferGeometry(20, 10),
+	new THREE.PlaneBufferGeometry(30, 15),
 	new THREE.MeshBasicMaterial({
-		color: 0x555555,
+		//color: 0x555555,
+		map: new THREE.TextureLoader().load(wallImageURL),
+		transparent: true,
+		opacity: 0.5,
 	})
 );
 wallPlane.position.z = -5;
-wallPlane.position.y = 2;
-
-const wallHelper = new THREE.BoxHelper(wallPlane, 0x000fff);
-scene.add(wallHelper);
+wallPlane.position.y = 5;
+scene.add(wallPlane);
+//const wallHelper = new THREE.BoxHelper(wallPlane, 0x000fff);
+//scene.add(wallHelper);
