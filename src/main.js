@@ -204,7 +204,8 @@ const wallPlane = new THREE.Mesh(
 		//color: 0x555555,
 		map: new THREE.TextureLoader().load(wallImageURL),
 		transparent: true,
-		opacity: 0.5,
+		opacity: 0.8,
+		blending: THREE.AdditiveBlending,
 	})
 );
 wallPlane.position.z = -groundSize / 2;
