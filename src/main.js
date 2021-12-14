@@ -73,6 +73,7 @@ function draw() {
 	requestAnimationFrame(draw);
 	const delta = (Date.now() - lastFrame) / 1000;
 
+	cloudUniforms.u_time.value += delta * 2;
 
 	for (let index = sceneEmoteArray.length - 1; index >= 0; index--) {
 		const element = sceneEmoteArray[index];
@@ -84,6 +85,7 @@ function draw() {
 		}
 	}
 	lastFrame = Date.now();
+
 
 	renderer.render(scene, camera);
 	if (query_vars.stats) stats.end();
@@ -120,6 +122,10 @@ ChatInstance.listen((emotes) => {
 	group.flipX = Math.random() > 0.5 ? 1 : -1;
 	group.flipY = Math.random() > 0.5 ? 0 : -1;
 
+	if (group.flipY < 0) {
+		offset.y -= 1;
+	}
+
 	let i = 0;
 	emotes.forEach((emote) => {
 		const sprite = new THREE.Mesh(emoteGeometry, emote.material);
@@ -132,7 +138,7 @@ ChatInstance.listen((emotes) => {
 	group.update = () => { // called every frame
 		let progress = (Date.now() - group.timestamp) / group.lifespan;
 		group.position.z = johnSoulsMesh.position.z - 1 + progress * 9 + offset.z;
-		group.position.x = (Math.sin(progress * Math.PI * 2) * 3) * group.flipX + offset.x;
+		group.position.x = ((Math.sin(progress * Math.PI * 2) * 3) * group.flipX + offset.x) * (group.flipY ? 2 : 1);
 		group.position.y = Math.sin(progress * Math.PI * 2) * 1 * group.flipY + johnSoulsMesh.position.y + offset.y;
 
 		group.rotation.x = progress * Math.PI * 2 + rotationOffset.x;
@@ -206,3 +212,25 @@ wallPlane.position.y = wallSize / 2;
 scene.add(wallPlane);
 //const wallHelper = new THREE.BoxHelper(wallPlane, 0x000fff);
 //scene.add(wallHelper);
+
+
+scene.background = new THREE.Color(0x000E16);
+
+const cloudGeometry = new THREE.PlaneBufferGeometry(160, 100);
+const cloudFragShader = document.getElementById('simplexFragmentShader').textContent;
+const cloudVertShader = document.getElementById('SimpleVertexShader').textContent;
+const cloudUniforms = {
+	u_time: { value: Math.random()*10000 },
+	u_resolution: { value: 512 },
+}
+const cloudMaterial = new THREE.ShaderMaterial({
+	uniforms: cloudUniforms,
+	vertexShader: cloudVertShader,
+	fragmentShader: cloudFragShader,
+	transparent: false,
+})
+const cloud = new THREE.Mesh(cloudGeometry, cloudMaterial);
+cloud.position.y = wallPlane.position.y * 2;
+cloud.position.z = wallPlane.position.z;
+cloud.rotation.x = Math.PI / 2.9;
+scene.add(cloud);
