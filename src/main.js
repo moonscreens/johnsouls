@@ -176,15 +176,24 @@ scene.add(johnSoulsMesh);
 const hatSize = 8;
 const JohnHat = new THREE.Mesh(
 	new THREE.CylinderBufferGeometry(hatSize * 0.75, JohnWidth * 0.12, hatSize, 32, 16, true),
-	new THREE.MeshNormalMaterial({
-		//wireframe: true,
-		side: THREE.DoubleSide,
+	new THREE.MeshLambertMaterial({
 		color: 0xff0000,
 	}),
 )
 JohnHat.position.y += hatSize * 0.5 + JohnHeight * 0.23;
 JohnHat.position.x += JohnWidth * 0.13;
 johnSoulsMesh.add(JohnHat);
+
+const blockHeight = JohnWidth * 0.6;
+const JohnBlock = new THREE.Mesh(
+	new THREE.BoxBufferGeometry(JohnWidth, blockHeight, JohnWidth),
+	new THREE.MeshLambertMaterial({
+		color: 0xffffff,
+	}),
+);
+JohnBlock.position.y -= JohnHeight * 0.5 - blockHeight * 0.5;
+JohnBlock.position.z -= JohnWidth * 0.5 + 0.01;
+johnSoulsMesh.add(JohnBlock);
 
 //camera.position.set(10, 1, 0);
 //camera.lookAt(johnSoulsMesh.position);
@@ -241,3 +250,14 @@ cloud.position.y = wallPlane.position.y * 2;
 cloud.position.z = wallPlane.position.z;
 cloud.rotation.x = Math.PI / 2.9;
 scene.add(cloud);
+
+
+scene.add(new THREE.AmbientLight(0xffffff, 0.2));
+
+const backLight1 = new THREE.DirectionalLight(0xffffff, 0.5);
+backLight1.position.set(0, -1, -1);
+scene.add(backLight1);
+
+const backLight2 = new THREE.DirectionalLight(0xffffff, 0.5);
+backLight2.position.set(0, 1, -1);
+scene.add(backLight2);
