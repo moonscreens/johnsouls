@@ -156,7 +156,9 @@ ChatInstance.listen((emotes) => {
 */
 
 import johnsmoulsURL from "./johnsmouls.png";
-const johnSoulsPlane = new THREE.PlaneBufferGeometry(3, 6);
+const JohnWidth = 3;
+const JohnHeight = 6;
+const johnSoulsPlane = new THREE.PlaneBufferGeometry(JohnWidth, JohnHeight);
 
 const johnSoulsMesh = new THREE.Mesh(
 	johnSoulsPlane,
@@ -173,17 +175,15 @@ scene.add(johnSoulsMesh);
 
 const hatSize = 8;
 const JohnHat = new THREE.Mesh(
-	new THREE.CylinderBufferGeometry(0.4, hatSize * 0.5, hatSize * 0.5, 32, 16, true),
+	new THREE.CylinderBufferGeometry(hatSize * 0.75, JohnWidth * 0.12, hatSize, 32, 16, true),
 	new THREE.MeshNormalMaterial({
-		wireframe: true,
+		//wireframe: true,
+		side: THREE.DoubleSide,
 		color: 0xff0000,
 	}),
 )
-JohnHat.position.copy(johnSoulsMesh.position);
-JohnHat.position.z += hatSize * 0.375;
-JohnHat.position.y += hatSize * 0.05;
-JohnHat.position.x += hatSize * 0.05;
-JohnHat.rotation.z = Math.PI;
+JohnHat.position.y += hatSize * 0.5 + JohnHeight * 0.23;
+JohnHat.position.x += JohnWidth * 0.13;
 johnSoulsMesh.add(JohnHat);
 
 //camera.position.set(10, 1, 0);
