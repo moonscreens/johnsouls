@@ -171,15 +171,23 @@ scene.add(johnSoulsMesh);
 //const johnSoulsHelper = new THREE.BoxHelper(johnSoulsMesh);
 //scene.add(johnSoulsHelper);
 
+const hatSize = 8;
 const JohnHat = new THREE.Mesh(
-	new THREE.PlaneBufferGeometry(8, 8),
-	new THREE.MeshBasicMaterial({
+	new THREE.CylinderBufferGeometry(0.4, hatSize * 0.5, hatSize * 0.5, 32, 16, true),
+	new THREE.MeshNormalMaterial({
+		wireframe: true,
 		color: 0xff0000,
 	}),
 )
-JohnHat.position.set(0, 9, -1);
-JohnHat.rotation.z = Math.PI / 4;
+JohnHat.position.copy(johnSoulsMesh.position);
+JohnHat.position.z += hatSize * 0.375;
+JohnHat.position.y += hatSize * 0.05;
+JohnHat.position.x += hatSize * 0.05;
+JohnHat.rotation.z = Math.PI;
 johnSoulsMesh.add(JohnHat);
+
+//camera.position.set(10, 1, 0);
+//camera.lookAt(johnSoulsMesh.position);
 
 const wallSize = 20;
 const groundSize = 13;
@@ -204,8 +212,6 @@ const wallPlane = new THREE.Mesh(
 		//color: 0x555555,
 		map: new THREE.TextureLoader().load(wallImageURL),
 		transparent: true,
-		opacity: 0.8,
-		blending: THREE.AdditiveBlending,
 	})
 );
 wallPlane.position.z = -groundSize / 2;
