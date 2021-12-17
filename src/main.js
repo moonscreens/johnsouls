@@ -1,5 +1,6 @@
 import TwitchChat from "twitch-chat-emotes-threejs";
 import * as THREE from "three";
+import Stats from "stats-js";
 import "./main.css";
 
 /*
@@ -17,6 +18,13 @@ const query_parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, func
 
 if (query_vars.channels) {
 	channels = query_vars.channels.split(',');
+}
+
+let stats = false;
+if (query_vars.stats) {
+	stats = new Stats();
+	stats.showPanel(1);
+	document.body.appendChild(stats.dom);
 }
 
 const ChatInstance = new TwitchChat({
@@ -156,9 +164,10 @@ ChatInstance.listen((emotes) => {
 */
 
 import johnsmoulsURL from "./johnsmouls.png";
+import johnsmoulsHighlightURL from "./johnsmoulsCutout.png";
 const JohnWidth = 3;
 const JohnHeight = 6;
-const johnSoulsPlane = new THREE.PlaneBufferGeometry(JohnWidth, JohnHeight);
+const johnSoulsPlane = new THREE.PlaneBufferGeometry(JohnWidth, JohnHeight, 256, 256);
 
 const johnSoulsMesh = new THREE.Mesh(
 	johnSoulsPlane,
@@ -167,17 +176,29 @@ const johnSoulsMesh = new THREE.Mesh(
 		transparent: true,
 	})
 );
+const johnSoulsHighlight = new THREE.Mesh(
+	johnSoulsPlane,
+	generateShimmeryMat({
+		map: new THREE.TextureLoader().load(johnsmoulsHighlightURL),
+		color: 0xff0000,
+		transparent: true,
+		blending: THREE.AdditiveBlending,
+		opacity: 0.25,
+	})
+);
+johnSoulsHighlight.position.z = 0.01;
+johnSoulsMesh.add(johnSoulsHighlight);
 johnSoulsMesh.position.set(0, 3, -3);
 scene.add(johnSoulsMesh);
 
 //const johnSoulsHelper = new THREE.BoxHelper(johnSoulsMesh);
 //scene.add(johnSoulsHelper);
 
-const hatSize = 8;
+const hatSize = 4;
 const JohnHat = new THREE.Mesh(
 	new THREE.CylinderBufferGeometry(hatSize * 0.75, JohnWidth * 0.12, hatSize, 32, 16, true),
 	new THREE.MeshLambertMaterial({
-		color: 0xff0000,
+		color: 0xaaaaaa,
 	}),
 )
 JohnHat.position.y += hatSize * 0.5 + JohnHeight * 0.23;
@@ -216,6 +237,7 @@ scene.add(groundPlane);
 
 
 import wallImageURL from "./background.png";
+import generateShimmeryMat from "./shimmeryMaterial";
 const wallPlane = new THREE.Mesh(
 	new THREE.PlaneBufferGeometry(wallSize * 2, wallSize),
 	new THREE.MeshBasicMaterial({
