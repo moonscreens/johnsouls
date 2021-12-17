@@ -208,6 +208,7 @@ const groundPlane = new THREE.Mesh(
 		map: new THREE.TextureLoader().load(floorImageURL),
 	})
 );
+groundPlane.material.map.anisotropy = 4;
 groundPlane.rotation.x = -Math.PI / 2;
 scene.add(groundPlane);
 //const groundHelper = new THREE.BoxHelper(groundPlane, 0xff0000);
