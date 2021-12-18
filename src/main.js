@@ -180,7 +180,6 @@ const johnSoulsHighlight = new THREE.Mesh(
 	johnSoulsPlane,
 	generateShimmeryMat({
 		map: new THREE.TextureLoader().load(johnsmoulsHighlightURL),
-		color: 0xff0000,
 		transparent: true,
 		blending: THREE.AdditiveBlending,
 		opacity: 0.25,
