@@ -46,7 +46,7 @@ const ChatInstance = new TwitchChat({
 */
 
 const camera = new THREE.PerspectiveCamera(
-	70,
+	query_vars.fov ? Number(query_vars.fov) : 70,
 	window.innerWidth / window.innerHeight,
 	0.1,
 	1000
