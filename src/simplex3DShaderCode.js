@@ -55,6 +55,7 @@ float snoise(vec3 v) {
 	m = m * m;
 	return 105.0 * dot(m * m, vec4(dot(p0, x0), dot(p1, x1), dot(p2, x2), dot(p3, x3)));
 }
+
 float snoiseOffset(vec3 newOffset, float bnScale, float tScale) {
 	return snoise(vec3(
 		position.x * bnScale + newOffset.x,
