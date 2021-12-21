@@ -174,6 +174,7 @@ const johnSoulsMesh = new THREE.Mesh(
 	new THREE.MeshBasicMaterial({
 		map: new THREE.TextureLoader().load(johnsmoulsURL),
 		transparent: true,
+		opacity: query_vars.nojohn !== undefined ? 0 : 1,
 	})
 );
 const johnSoulsHighlight = new THREE.Mesh(
