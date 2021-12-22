@@ -183,7 +183,7 @@ const johnSoulsHighlight = new THREE.Mesh(
 		map: new THREE.TextureLoader().load(johnsmoulsHighlightURL),
 		transparent: true,
 		blending: THREE.AdditiveBlending,
-		opacity: 0.25,
+		opacity: 0.8,
 	})
 );
 johnSoulsHighlight.position.z = 0.01;
