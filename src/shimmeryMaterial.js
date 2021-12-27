@@ -33,7 +33,7 @@ function generateShimmeryMat(options) {
 				snoiseOffset(vec3(bnScale * 2.0, 0, 0), bnScale * 2.0, 0.2),
 				snoiseOffset(vec3(0, bnScale, 0), bnScale, 0.2),
 				0.0
-			) * .03;
+			) * .0;
 			`,
 		);
 
@@ -46,17 +46,21 @@ function generateShimmeryMat(options) {
 		${shader.fragmentShader.replace('#include <alphamap_fragment>',`
 			#include <alphamap_fragment>
 
-			float bnScale = 5.0;
-			float timeScale = 0.2;
-			diffuseColor.a *= 2.0 * (0.5 + 0.5 * snoise(vec3(vUv.x * bnScale, vUv.y * bnScale - u_time * timeScale,  u_time * timeScale * 0.1)));
-			
-			float bnScale2 = bnScale * 2.0;
-			float timeScale2 = timeScale * 1.5;
-			diffuseColor.a *= (1.0 + 0.5 * snoise(vec3(vUv.x * bnScale2, vUv.y * bnScale2 - u_time * timeScale2, u_time * -timeScale2)));
+			float alphaMult = 0.0;
 
-			//float bnScale3 = bnScale2 * 4.0;
-			//float timeScale3 = timeScale2 * 0.25;
-			//diffuseColor.a *= 0.75 + 0.5 * (0.5 + 0.5 * snoise(vec3(vUv.x * bnScale3, vUv.y * bnScale3 * 0.1, u_time * timeScale3)));
+			float bnScale = 3.0;
+			float timeScale = 0.3;
+			alphaMult += (1.0 + 0.5 * snoise(vec3(vUv.x * bnScale, vUv.y * bnScale - u_time * timeScale,  u_time * timeScale * 0.1)));
+			
+			float bnScale2 = bnScale * 3.0;
+			float timeScale2 = timeScale * 1.5;
+			alphaMult += (1.0 + 0.5 * snoise(vec3(vUv.x * bnScale2, vUv.y * bnScale2 - u_time * timeScale2, u_time * -timeScale2)));
+
+			float bnScale3 = bnScale2 * 1.0;
+			float timeScale3 = timeScale2 * 0.25;
+			alphaMult -= 0.5 * (1.0 + 0.5 * snoise(vec3(vUv.x * bnScale3, vUv.y * bnScale3, u_time * timeScale3)));
+
+			diffuseColor.a *= alphaMult / 1.5;
 		`)}`;
 	};
 
