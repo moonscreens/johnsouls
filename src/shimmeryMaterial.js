@@ -33,7 +33,7 @@ function generateShimmeryMat(options) {
 				snoiseOffset(vec3(bnScale * 2.0, 0, 0), bnScale * 2.0, 0.2),
 				snoiseOffset(vec3(0, bnScale, 0), bnScale, 0.2),
 				0.0
-			) * .06;
+			) * .03;
 			`,
 		);
 
@@ -52,7 +52,7 @@ function generateShimmeryMat(options) {
 			
 			float bnScale2 = bnScale * 2.0;
 			float timeScale2 = timeScale * 1.5;
-			diffuseColor.a *= (0.5 + 0.5 * snoise(vec3(vUv.x * bnScale2, vUv.y * bnScale2 - u_time * timeScale2, u_time * -timeScale2)));
+			diffuseColor.a *= (1.0 + 0.5 * snoise(vec3(vUv.x * bnScale2, vUv.y * bnScale2 - u_time * timeScale2, u_time * -timeScale2)));
 
 			//float bnScale3 = bnScale2 * 4.0;
 			//float timeScale3 = timeScale2 * 0.25;
