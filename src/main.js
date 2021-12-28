@@ -196,13 +196,13 @@ scene.add(johnSoulsMesh);
 
 const hatSize = 4;
 const JohnHat = new THREE.Mesh(
-	new THREE.CylinderBufferGeometry(hatSize * 0.75, JohnWidth * 0.12, hatSize, 32, 16, true),
+	new THREE.CylinderBufferGeometry(hatSize * 0.75, JohnWidth * 0.11, hatSize, 32, 16, true),
 	new THREE.MeshLambertMaterial({
 		color: 0xaaaaaa,
 	}),
 )
-JohnHat.position.y += hatSize * 0.5 + JohnHeight * 0.23;
-JohnHat.position.x += JohnWidth * 0.13;
+JohnHat.position.y += hatSize * 0.5 + JohnHeight * 0.21;
+JohnHat.position.x += JohnWidth * 0.125;
 johnSoulsMesh.add(JohnHat);
 
 const blockHeight = JohnWidth * 0.6;
