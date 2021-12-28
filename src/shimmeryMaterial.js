@@ -60,7 +60,7 @@ function generateShimmeryMat(options) {
 			float timeScale3 = timeScale2 * 0.25;
 			alphaMult -= 0.5 * (1.0 + 0.5 * snoise(vec3(vUv.x * bnScale3, vUv.y * bnScale3, u_time * timeScale3)));
 
-			diffuseColor.a *= alphaMult / 1.5;
+			diffuseColor.a *= alphaMult / 2.0;
 		`)}`;
 	};
 
