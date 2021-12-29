@@ -205,17 +205,6 @@ JohnHat.position.y += hatSize * 0.5 + JohnHeight * 0.21;
 JohnHat.position.x += JohnWidth * 0.125;
 johnSoulsMesh.add(JohnHat);
 
-const blockHeight = JohnWidth * 0.6;
-const JohnBlock = new THREE.Mesh(
-	new THREE.BoxBufferGeometry(JohnWidth, blockHeight, JohnWidth),
-	new THREE.MeshLambertMaterial({
-		color: 0xffffff,
-	}),
-);
-JohnBlock.position.y -= JohnHeight * 0.5 - blockHeight * 0.5;
-JohnBlock.position.z -= JohnWidth * 0.5 + 0.01;
-johnSoulsMesh.add(JohnBlock);
-
 //camera.position.set(10, 1, 0);
 //camera.lookAt(johnSoulsMesh.position);
 
@@ -248,7 +237,7 @@ const wallPlane = new THREE.Mesh(
 );
 wallPlane.position.z = -groundSize / 2;
 wallPlane.position.y = wallSize / 2;
-scene.add(wallPlane);
+//scene.add(wallPlane);
 //const wallHelper = new THREE.BoxHelper(wallPlane, 0x000fff);
 //scene.add(wallHelper);
 
