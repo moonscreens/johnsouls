@@ -244,12 +244,11 @@ wallPlane.position.y = wallSize / 2;
 
 scene.background = new THREE.Color(0x000E16);
 
-const cloudGeometry = new THREE.PlaneBufferGeometry(160, 100);
+const cloudGeometry = new THREE.PlaneBufferGeometry(345, 160, 1, 1);
 const cloudFragShader = document.getElementById('simplexFragmentShader').textContent;
 const cloudVertShader = document.getElementById('SimpleVertexShader').textContent;
 const cloudUniforms = {
 	u_time: { value: Math.random()*10000 },
-	u_resolution: { value: 512 },
 }
 const cloudMaterial = new THREE.ShaderMaterial({
 	uniforms: cloudUniforms,
@@ -258,9 +257,9 @@ const cloudMaterial = new THREE.ShaderMaterial({
 	transparent: false,
 })
 const cloud = new THREE.Mesh(cloudGeometry, cloudMaterial);
-cloud.position.y = wallPlane.position.y * 2;
-cloud.position.z = wallPlane.position.z;
-cloud.rotation.x = Math.PI / 2.9;
+cloud.position.y = -4;
+cloud.position.z = -80;
+cloud.rotation.x = Math.PI / 3;
 scene.add(cloud);
 
 
