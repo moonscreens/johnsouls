@@ -56,7 +56,7 @@ camera.position.y = 0.75;
 camera.lookAt(0, 2.5, 0);
 
 const scene = new THREE.Scene();
-const renderer = new THREE.WebGLRenderer({ antialias: false });
+const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 
 function resize() {
@@ -188,27 +188,23 @@ const johnSoulsHighlight = new THREE.Mesh(
 );
 johnSoulsHighlight.position.z = 0.01;
 johnSoulsMesh.add(johnSoulsHighlight);
-johnSoulsMesh.position.set(0, 3, -3);
+johnSoulsMesh.position.set(0, 3.02, -3);
 scene.add(johnSoulsMesh);
 
-//const johnSoulsHelper = new THREE.BoxHelper(johnSoulsMesh);
-//scene.add(johnSoulsHelper);
 
 const hatSize = 4;
+import hatURL from './hat.png';
 const JohnHat = new THREE.Mesh(
-	new THREE.CylinderBufferGeometry(hatSize * 0.75, JohnWidth * 0.11, hatSize, 32, 16, true),
-	new THREE.MeshLambertMaterial({
+	new THREE.CylinderBufferGeometry(hatSize * 0.75, JohnWidth * 0.11, hatSize, 64, 64, true),
+	generateTurbanMat({
+		map: new THREE.TextureLoader().load(hatURL),
 		color: 0xaaaaaa,
-	}),
+	})
 )
 JohnHat.position.y += hatSize * 0.5 + JohnHeight * 0.21;
 JohnHat.position.x += JohnWidth * 0.125;
 johnSoulsMesh.add(JohnHat);
 
-//camera.position.set(10, 1, 0);
-//camera.lookAt(johnSoulsMesh.position);
-
-const wallSize = 20;
 const groundSize = 13;
 
 import floorImageURL from "./floor.png";
@@ -216,30 +212,20 @@ const groundPlane = new THREE.Mesh(
 	new THREE.PlaneBufferGeometry(groundSize * 2, groundSize),
 	new THREE.MeshBasicMaterial({
 		map: new THREE.TextureLoader().load(floorImageURL),
-	})
-);
-groundPlane.material.map.anisotropy = 4;
-groundPlane.rotation.x = -Math.PI / 2;
-scene.add(groundPlane);
-//const groundHelper = new THREE.BoxHelper(groundPlane, 0xff0000);
-//scene.add(groundHelper);
-
-
-import wallImageURL from "./background.png";
-import generateShimmeryMat from "./shimmeryMaterial";
-const wallPlane = new THREE.Mesh(
-	new THREE.PlaneBufferGeometry(wallSize * 2, wallSize),
-	new THREE.MeshBasicMaterial({
-		//color: 0x555555,
-		map: new THREE.TextureLoader().load(wallImageURL),
 		transparent: true,
 	})
 );
-wallPlane.position.z = -groundSize / 2;
-wallPlane.position.y = wallSize / 2;
-//scene.add(wallPlane);
-//const wallHelper = new THREE.BoxHelper(wallPlane, 0x000fff);
-//scene.add(wallHelper);
+groundPlane.material.map.anisotropy = 32;
+groundPlane.material.map.magFilter = THREE.LinearFilter;
+groundPlane.material.map.minFilter = THREE.LinearFilter;
+groundPlane.rotation.x = -Math.PI / 2;
+
+groundPlane.renderOrder = 9;
+scene.add(groundPlane);
+
+
+import generateShimmeryMat from "./shimmeryMaterial";
+import generateTurbanMat from "./turbanMaterial";
 
 
 scene.background = new THREE.Color(0x000E16);
@@ -257,6 +243,7 @@ const cloudMaterial = new THREE.ShaderMaterial({
 	transparent: false,
 })
 const cloud = new THREE.Mesh(cloudGeometry, cloudMaterial);
+cloud.renderOrder = 10;
 cloud.position.y = -4;
 cloud.position.z = -80;
 cloud.rotation.x = Math.PI / 3;
