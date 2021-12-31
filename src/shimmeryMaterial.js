@@ -20,25 +20,7 @@ function generateShimmeryMat(options) {
 		shader.uniforms.u_time = { value: Math.random() * 1000 };
 		uniforms = shader.uniforms;
 		tick();
-		shader.vertexShader = `
-			uniform float u_time;
-			${webGLSimplex3DNoise}
-			${shader.vertexShader}`;
-		shader.vertexShader = shader.vertexShader.replace(
-			'#include <begin_vertex>',
-			`
-			float bnScale = 1.0;
-	
-			vec3 transformed = position + vec3(
-				snoiseOffset(vec3(bnScale * 2.0, 0, 0), bnScale * 2.0, 0.2),
-				snoiseOffset(vec3(0, bnScale, 0), bnScale, 0.2),
-				0.0
-			) * .0;
-			`,
-		);
-
 		shimmeryMat.userData.shader = shader;
-
 		shader.fragmentShader = `
 		uniform float u_time;
 		${webGLSimplex3DNoise.split('float snoiseOffset')[0]}
