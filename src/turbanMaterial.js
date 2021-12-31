@@ -31,7 +31,7 @@ function generateTurbanMat(options) {
 			float transformScale = (position.y + 2.0) / 5.0;
 
 			float time = u_time * 0.1;
-			float hatNoise = snoise(vec3(position.y * 0.5, position.x * 0.1, position.z * 0.1 + time));
+			float hatNoise = snoise(vec3(position.y * 0.5 - time, position.x * 0.1, position.z * 0.1 + time * 0.25));
 			vec3 transformed = position + vec3(
 				-sin(hatNoise * 3.14),
 				0,
