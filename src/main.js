@@ -196,14 +196,14 @@ scene.add(johnSoulsMesh);
 const hatSize = 4;
 import hatURL from './hat.png';
 const JohnHat = new THREE.Mesh(
-	new THREE.CylinderBufferGeometry(hatSize * 0.75, JohnWidth * 0.11, hatSize, 64, 64, true),
+	new THREE.CylinderBufferGeometry(hatSize * 0.75, JohnWidth * 0.09, hatSize, 64, 64, true),
 	generateTurbanMat({
 		map: new THREE.TextureLoader().load(hatURL),
 		color: 0xaaaaaa,
 	})
 )
-JohnHat.position.y += hatSize * 0.5 + JohnHeight * 0.21;
-JohnHat.position.x += JohnWidth * 0.125;
+JohnHat.position.y += hatSize * 0.5 + JohnHeight * 0.16;
+JohnHat.position.x += JohnWidth * 0.118;
 johnSoulsMesh.add(JohnHat);
 
 const groundSize = 13;
