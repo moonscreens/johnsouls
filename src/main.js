@@ -2,6 +2,7 @@ import TwitchChat from "twitch-chat-emotes-threejs";
 import * as THREE from "three";
 import Stats from "stats-js";
 import "./main.css";
+window.shaderPID = 10000;
 
 /*
 ** connect to twitch chat
@@ -226,27 +227,30 @@ scene.add(groundPlane);
 
 import generateShimmeryMat from "./shimmeryMaterial";
 import generateTurbanMat from "./turbanMaterial";
+import generateCloudMat from "./cloudMaterial";
 
 
 scene.background = new THREE.Color(0x000E16);
+scene.fog = new THREE.Fog(0x000E16, 0, 160);
 
-const cloudGeometry = new THREE.PlaneBufferGeometry(345, 160, 1, 1);
-const cloudFragShader = document.getElementById('simplexFragmentShader').textContent;
-const cloudVertShader = document.getElementById('SimpleVertexShader').textContent;
+
+const cloudGeometry = new THREE.PlaneBufferGeometry(400, 160, 1, 1);
 const cloudUniforms = {
 	u_time: { value: Math.random()*10000 },
 }
-const cloudMaterial = new THREE.ShaderMaterial({
-	uniforms: cloudUniforms,
-	vertexShader: cloudVertShader,
-	fragmentShader: cloudFragShader,
-	transparent: false,
-})
+const cloudCanvas = document.createElement('canvas');
+const cloudCTX = cloudCanvas.getContext('2d');
+cloudCTX.fillStyle = '#fff';
+cloudCTX.fillRect(0, 0, cloudCanvas.width, cloudCanvas.height);
+const cloudMaterial = generateCloudMat({
+	map: new THREE.CanvasTexture(cloudCanvas),
+});
+
 const cloud = new THREE.Mesh(cloudGeometry, cloudMaterial);
 cloud.renderOrder = 10;
-cloud.position.y = -4;
+cloud.position.y = 20;
 cloud.position.z = -80;
-cloud.rotation.x = Math.PI / 3;
+cloud.rotation.x = Math.PI * 0.5;
 scene.add(cloud);
 
 
