@@ -231,7 +231,7 @@ import generateCloudMat from "./cloudMaterial";
 
 
 scene.background = new THREE.Color(0x000E16);
-scene.fog = new THREE.Fog(0x000E16, 0, 160);
+scene.fog = new THREE.Fog(0x000E16, 6, 160);
 
 
 const cloudGeometry = new THREE.PlaneBufferGeometry(400, 160, 1, 1);
