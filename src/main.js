@@ -166,8 +166,8 @@ ChatInstance.listen((emotes) => {
 
 import johnsmoulsURL from "./johnsmouls.png";
 import johnsmoulsHighlightURL from "./johnsmoulsCutout.png";
-const JohnWidth = 3;
-const JohnHeight = 6;
+const JohnWidth = 3.5;
+const JohnHeight = JohnWidth * 2;
 const johnSoulsPlane = new THREE.PlaneBufferGeometry(JohnWidth, JohnHeight, 256, 256);
 
 const johnSoulsMesh = new THREE.Mesh(
@@ -183,11 +183,11 @@ const johnSoulsHighlight = new THREE.Mesh(
 	generateShimmeryMat({
 		map: new THREE.TextureLoader().load(johnsmoulsHighlightURL),
 		transparent: true,
+		opacity: 1,
 		blending: THREE.AdditiveBlending,
-		opacity: 0.8,
 	})
 );
-johnSoulsHighlight.position.z = 0.01;
+johnSoulsHighlight.position.z = 0.025;
 johnSoulsMesh.add(johnSoulsHighlight);
 johnSoulsMesh.position.set(0, 3.02, -3);
 scene.add(johnSoulsMesh);
@@ -216,12 +216,8 @@ const groundPlane = new THREE.Mesh(
 		transparent: true,
 	})
 );
-groundPlane.material.map.anisotropy = 32;
-groundPlane.material.map.magFilter = THREE.LinearFilter;
-groundPlane.material.map.minFilter = THREE.LinearFilter;
-groundPlane.rotation.x = -Math.PI / 2;
+groundPlane.position.z = johnSoulsMesh.position.z - 1.1;
 
-groundPlane.renderOrder = 9;
 scene.add(groundPlane);
 
 
@@ -247,7 +243,6 @@ const cloudMaterial = generateCloudMat({
 });
 
 const cloud = new THREE.Mesh(cloudGeometry, cloudMaterial);
-cloud.renderOrder = 10;
 cloud.position.y = 20;
 cloud.position.z = -80;
 cloud.rotation.x = Math.PI * 0.5;
