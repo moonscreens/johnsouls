@@ -166,14 +166,40 @@ ChatInstance.listen((emotes) => {
 
 import johnsmoulsURL from "./johnsmouls.png";
 import johnsmoulsHighlightURL from "./johnsmoulsCutout.png";
+
+const johnCanvas = document.createElement('canvas');
+const johnContext = johnCanvas.getContext('2d');
+const johnImage = new Image();
+johnImage.src = johnsmoulsURL;
+johnImage.onload = () => {
+	johnCanvas.width = johnImage.width;
+	johnCanvas.height = johnImage.height;
+	johnContext.drawImage(johnImage, 0, 0);
+	johnTexture.needsUpdate = true;
+};
+
+import johnChairURL from "./johnChair.png";
+const chairImage = new Image();
+chairImage.src = johnChairURL;
+chairImage.onload = () => {
+	chairImage.width = johnImage.width;
+	chairImage.height = johnImage.height;
+	johnContext.drawImage(chairImage, 0, 0);
+	if (johnImage.complete) {
+		johnContext.drawImage(johnImage, 0, 0);
+	}
+	johnTexture.needsUpdate = true;
+};
+
 const JohnWidth = 3.5;
 const JohnHeight = JohnWidth * 2;
 const johnSoulsPlane = new THREE.PlaneBufferGeometry(JohnWidth, JohnHeight, 256, 256);
+const johnTexture = new THREE.Texture(johnCanvas);
 
 const johnSoulsMesh = new THREE.Mesh(
 	johnSoulsPlane,
 	new THREE.MeshBasicMaterial({
-		map: new THREE.TextureLoader().load(johnsmoulsURL),
+		map: johnTexture,
 		transparent: true,
 		opacity: query_vars.nojohn !== undefined ? 0 : 1,
 	})
@@ -191,7 +217,6 @@ johnSoulsHighlight.position.z = 0.025;
 johnSoulsMesh.add(johnSoulsHighlight);
 johnSoulsMesh.position.set(0, 3.02, -3);
 scene.add(johnSoulsMesh);
-
 
 const hatSize = 4;
 import hatURL from './hat.png';
