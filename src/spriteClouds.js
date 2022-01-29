@@ -3,17 +3,16 @@ import webGLSimplex3DNoise from './simplex3DShaderCode';
 
 const mesh = new THREE.Group();
 
-const geometry = new THREE.PlaneGeometry(1000, 1000);
 const canvas = document.createElement('canvas');
 canvas.height = canvas.width = 32;
 const material = new THREE.MeshBasicMaterial({
 	map: new THREE.Texture(canvas),
-	transparent: true,
+	transparent: false,
+	side: THREE.BackSide,
 });
 
 let lastFrame = Date.now();
 const tick = () => {
-	const delta = (Date.now() - lastFrame) / 1000;
 	lastFrame = Date.now();
 	if (uniforms) {
 		uniforms.u_time.value = performance.now() / 1000;
@@ -53,33 +52,30 @@ material.onBeforeCompile = function (shader) {
 		vec3 dim = vec3(0.0, 0.0, 0.0);
 		vec3 highlight = vec3(255.0, 255.0, 255.0);
 
-		vec3 st = vWorldPosition.xyz * 0.05;
+		vec3 st = vWorldPosition.xyz * 0.01;
 
-		float radians = snoise(vec3(st.x, st.y, st.z + u_time * .1));
-		radians *= radians;
-		radians *=  PI;
-		vec2 uv = vec2(cos(radians), sin(radians)) * 0.2;
-		float color = snoise(vec3(st.x + uv.x, st.y + uv.y - u_time * 0.1, vWorldPosition.z + u_time * 0.1)) * 0.25 + 0.5;
-		
-
-		//color += snoise(vec3(vWorldPosition.x * 0.2 + uv.x, vWorldPosition.y * 0.2 + uv.y - u_time * 0.2, vWorldPosition.z + u_time * 0.3)) * 0.25;
+		float r_noise = snoise(vec3(st.x, st.y - u_time * .1, st.z + u_time * .01));
+		r_noise += snoise(vec3(st.x * 0.5, st.y * 0.5 - u_time * .1, st.z * 0.5 + u_time * .01)) * 0.5;
+		float radians = pow(3.0, r_noise) * PI * 0.4;
+		vec2 uv = vec2(cos(radians), sin(radians)) * 0.2 * (r_noise * 3.0);
+		float color = snoise(vec3(st.x + uv.x, st.y + uv.y, st.z - u_time * 0.1)) * 0.5 + 0.5;
 
 		float alpha = 1.0;
 		
 		// fade higher pixels out
-		alpha *= max(0.0, min(1.0, 1.0 - vWorldPosition.y * 0.04));
+		//alpha *= max(0.0, min(1.0, 1.0 - vWorldPosition.y * 0.04));
 		
 		// fade out a "tunnel" close to the x/y center
-		alpha *= pow(max(0.0, min(1.0, distance(st.xy, vec2(0.0, 0.0)) * 0.5)), 4.0);
+		//float fadeDistance = 1.0; // ThreeJS units
+		//alpha *= pow(max(0.0, min(1.0, distance(st.xy, vec2(0.0, 0.0)) / fadeDistance)), 1.0);
 
 		// fade in further pixels
-		alpha = alpha + min(1.0, max(0.0, (-(vWorldPosition.z + 10.0) * .0005)));
+		//alpha = alpha + min(1.0, max(0.0, (-(vWorldPosition.z + 10.0) * .0005)));
 
+		vec3 color_ = vec3(0.45, 0.9, 1.49) * (pow(alpha, 2.0) * color);
 		diffuseColor = vec4(
-			0.45,
-			0.9,
-			1.49,
-			pow(alpha, 3.0) * color
+			color_,
+			1.0
 		);
 	`)}`;
 };
@@ -89,10 +85,18 @@ material.customProgramCacheKey = function () {
 	return parseInt(window.shaderPID++); // some random ish number
 };
 
-for (let index = 0; index < 10; index++) {
+/*for (let index = 0; index < 8; index++) {
 	const plane = new THREE.Mesh(geometry, material);
-	plane.position.z = -index * 15 - 10;
+	plane.position.z = -index * 10 - 6;
 	mesh.add(plane);
-}
+}*/
+
+const sphere = new THREE.Mesh(
+	new THREE.SphereGeometry(150, 32, 32),
+	material
+);
+sphere.position.z = -7;
+sphere.position.y = 74;
+mesh.add(sphere);
 
 export default mesh;
