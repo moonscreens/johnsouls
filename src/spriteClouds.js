@@ -70,7 +70,7 @@ material.onBeforeCompile = function (shader) {
 		alpha *= max(0.0, min(1.0, 1.0 - vWorldPosition.y * 0.04));
 		
 		// fade out a "tunnel" close to the x/y center
-		alpha *= max(0.0, min(1.0, distance(st.xy, vec2(0.0, 0.0)) * 0.4));
+		alpha *= pow(max(0.0, min(1.0, distance(st.xy, vec2(0.0, 0.0)) * 0.5)), 4.0);
 
 		// fade in further pixels
 		alpha = alpha + min(1.0, max(0.0, (-(vWorldPosition.z + 10.0) * .0005)));
@@ -79,7 +79,7 @@ material.onBeforeCompile = function (shader) {
 			0.45,
 			0.9,
 			1.49,
-			alpha * color
+			pow(alpha, 3.0) * color
 		);
 	`)}`;
 };
