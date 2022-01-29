@@ -58,6 +58,8 @@ camera.lookAt(0, 2.5, 0);
 
 const scene = new THREE.Scene();
 const renderer = new THREE.WebGLRenderer({ antialias: true });
+window.maxAnisotropy = renderer.capabilities.getMaxAnisotropy();
+
 renderer.setSize(window.innerWidth, window.innerHeight);
 
 function resize() {
@@ -94,6 +96,15 @@ function draw() {
 		}
 	}
 	lastFrame = Date.now();
+
+
+	for (let i = 0; i < boxArts.length; i++) {
+		const element = boxArts[i];
+		const p = Date.now() / 10000 + (i / boxArts.length) * Math.PI * 2;
+		element.position.x = Math.sin(p) * 5 + johnSoulsMesh.position.x;
+		element.position.z = Math.cos(p) * 5 + johnSoulsMesh.position.z;
+		element.rotation.z += delta * 0.1;
+	}
 
 
 	renderer.render(scene, camera);
@@ -227,23 +238,41 @@ const JohnHat = new THREE.Mesh(
 		color: 0xaaaaaa,
 	})
 )
+JohnHat.geometry.rotateY(Math.PI / 2);
 JohnHat.position.y += hatSize * 0.5 + JohnHeight * 0.16;
 JohnHat.position.x += JohnWidth * 0.118;
 johnSoulsMesh.add(JohnHat);
 
-const groundSize = 13;
 
-import floorImageURL from "./floor.png";
-const groundPlane = new THREE.Mesh(
-	new THREE.PlaneBufferGeometry(groundSize * 2, groundSize),
-	new THREE.MeshBasicMaterial({
-		map: new THREE.TextureLoader().load(floorImageURL),
-		transparent: true,
-	})
-);
-groundPlane.position.z = johnSoulsMesh.position.z - 1.1;
+/* game boxes */
+import newBoxArt from './boxart';
 
-scene.add(groundPlane);
+import demonsoulsURL from './games/demonsouls.png';
+const gamebox = newBoxArt(demonsoulsURL);
+gamebox.position.z = -3.8;
+gamebox.position.y = -0.35;
+gamebox.rotation.set(-Math.PI * 0.45, 0.02, 0.6 + Math.random() * 3);
+setInterval(() => {
+	gamebox.rotation.z += 0.0005;
+}, 16)
+scene.add(gamebox);
+
+
+import darkSoulsURL from './games/darksouls.png';
+import darkSouls2URL from './games/darksouls2.png';
+import darkSouls3URL from './games/darksouls3.png';
+import eldenringURL from './games/eldenring.png';
+const boxArts = [
+	newBoxArt(darkSoulsURL),
+	newBoxArt(darkSouls2URL),
+	newBoxArt(darkSouls3URL),
+	newBoxArt(eldenringURL),
+];
+for (let i = 0; i < boxArts.length; i++) {
+	scene.add(boxArts[i]);
+	boxArts[i].rotation.set(Math.random() * Math.PI * 2, Math.random() * Math.PI * 2, Math.random() * Math.PI * 2);
+	boxArts[i].scale.setScalar(2);
+}
 
 
 import generateShimmeryMat from "./shimmeryMaterial";
@@ -252,16 +281,16 @@ import generateCloudMat from "./cloudMaterial";
 
 
 scene.background = new THREE.Color(0x000E16);
-scene.fog = new THREE.Fog(0x000E16, 6, 160);
+scene.fog = new THREE.Fog(scene.background, 6, 160);
 
 
 const cloudGeometry = new THREE.PlaneBufferGeometry(400, 160, 1, 1);
 const cloudUniforms = {
-	u_time: { value: Math.random()*10000 },
+	u_time: { value: Math.random() * 10000 },
 }
 const cloudCanvas = document.createElement('canvas');
 const cloudCTX = cloudCanvas.getContext('2d');
-cloudCTX.fillStyle = '#fff';
+cloudCTX.fillStyle = "#ffffff";
 cloudCTX.fillRect(0, 0, cloudCanvas.width, cloudCanvas.height);
 const cloudMaterial = generateCloudMat({
 	map: new THREE.CanvasTexture(cloudCanvas),
@@ -283,3 +312,7 @@ scene.add(backLight1);
 const backLight2 = new THREE.DirectionalLight(0xffffff, 0.5);
 backLight2.position.set(0, 1, -1);
 scene.add(backLight2);
+
+const frontLight = new THREE.DirectionalLight(0xffffff, 0.15);
+frontLight.position.set(0, 0, 1);
+scene.add(frontLight);
