@@ -235,7 +235,9 @@ const JohnHat = new THREE.Mesh(
 	new THREE.CylinderBufferGeometry(hatSize * 0.75, JohnWidth * 0.09, hatSize, 64, 64, true),
 	generateTurbanMat({
 		map: new THREE.TextureLoader().load(hatURL),
-		color: 0xaaaaaa,
+		color: 0xffffff,
+		roughness: 0.5,
+		metalness: 0.25,
 	})
 )
 JohnHat.geometry.rotateY(Math.PI / 2);
@@ -285,22 +287,33 @@ import spriteClouds from './spriteClouds';
 scene.add(spriteClouds);
 
 
-scene.add(new THREE.AmbientLight(0xffffff, 0.2));
+scene.add(new THREE.AmbientLight(0x7FB8FF, 0.2));
 
 //const johnLight = new THREE.PointLight(0xff2211, 0.5, 5);
-const johnLight = new THREE.RectAreaLight(0xff2211, 1, 5, 1, 1);
+const johnLight = new THREE.RectAreaLight(0xff2211, 0.5, 7, 7);
 johnLight.lookAt(new THREE.Vector3(0, -1, 0));
 johnLight.position.copy(johnSoulsMesh.position);
 scene.add(johnLight);
+scene.add(johnLight.clone().rotateX(Math.PI));
 
-const backLight1 = new THREE.DirectionalLight(0xffffff, 0.5);
+const pointLight = new THREE.PointLight(0xff2211, 0.5, 10);
+pointLight.position.copy(johnSoulsMesh.position);
+scene.add(pointLight);
+
+
+const backLight1 = new THREE.DirectionalLight(0x7FB8FF, 0.75);
 backLight1.position.set(0, -1, -1);
 scene.add(backLight1);
 
-const backLight2 = new THREE.DirectionalLight(0xffffff, 0.5);
+const backLight2 = new THREE.DirectionalLight(0x7FB8FF, 0.75);
 backLight2.position.set(0, 1, -1);
 scene.add(backLight2);
 
-const frontLight = new THREE.DirectionalLight(0xffffff, 0.15);
+/*const frontLight = new THREE.DirectionalLight(0x7FB8FF, 0.15);
 frontLight.position.set(0, 0, 1);
-scene.add(frontLight);
+scene.add(frontLight);*/
+
+const bottomLight = new THREE.SpotLight(0x7FB8FF, 1, 15, Math.PI / 4, 1, 1);
+bottomLight.position.set(0, -10, 0);
+bottomLight.target.position.set(0, 0, 0);
+scene.add(bottomLight);

@@ -30,7 +30,7 @@ headerGeometry.translate(0, height * 0.451, 0);
 import headerArtURL from './piss.png';
 const headerArt = new THREE.MeshStandardMaterial({
 	color: 0xffffff,
-	roughness: 0,
+	roughness: 0.25,
 	map: new THREE.TextureLoader().load(headerArtURL),
 })
 headerArt.map.anisotropy = window.maxAnisotropy;
@@ -40,7 +40,7 @@ const boxMaterial = new THREE.MeshStandardMaterial({
 	color: 0x6666ff,
 	transparent: true,
 	opacity: 0.95,
-	roughness: 0,
+	roughness: 0.25,
 })
 
 const generate = (url) => {
@@ -61,7 +61,7 @@ const generate = (url) => {
 		color: 0xffffff,
 		map: new THREE.TextureLoader().load(url),
 		emissive: 0x111111,
-		roughness: 0,
+		roughness: 0.25,
 	}));
 	art.material.map.anisotropy = window.maxAnisotropy;
 	art.position.z = 0.0001;
@@ -82,7 +82,7 @@ const generate = (url) => {
 
 	/*const disclaimer = new THREE.Mesh(disclaimerGeometry, new THREE.MeshStandardMaterial({
 		color: 0xffffff,
-		roughness: 0,
+		roughness: 0.25,
 	}));
 	disclaimer.position.z = box.position.z * 2 * 0.85;
 	group.add(disclaimer);*/

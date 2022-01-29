@@ -78,7 +78,7 @@ material.onBeforeCompile = function (shader) {
 		//alpha = alpha + min(1.0, max(0.0, (-(vWorldPosition.z + 10.0) * .0005)));
 
 		diffuseColor = vec4(
-			vec3(0.819, 0.925, 1) * (pow(alpha, 6.0) * color),
+			vec3(0.5, 0.75, 1.0) * (pow(alpha, 6.0) * color),
 			1.0
 		);
 	`)}`;
