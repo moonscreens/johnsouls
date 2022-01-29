@@ -252,6 +252,7 @@ const gamebox = newBoxArt(demonsoulsURL);
 gamebox.position.z = -3.8;
 gamebox.position.y = -0.35;
 gamebox.rotation.set(-Math.PI * 0.45, 0.02, 0.6 + Math.random() * 3);
+gamebox.scale.setScalar(5);
 setInterval(() => {
 	gamebox.rotation.z += 0.0005;
 }, 16)
