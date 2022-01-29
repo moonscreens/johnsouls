@@ -26,7 +26,7 @@ function generateCloudMat(options = {}) {
 		uniform float u_time;
 		${webGLSimplex3DNoise.split('float snoiseOffset')[0]}
 		
-		${shader.fragmentShader.replace('#include <alphamap_fragment>',`
+		${shader.fragmentShader.replace('#include <alphamap_fragment>', `
 			#include <alphamap_fragment>
 
 			vec3 dim = vec3(0.0, 0.09, 0.149);
