@@ -28,21 +28,19 @@ artGeometry.translate(0, -height * 0.05, 0);
 const headerGeometry = new THREE.PlaneGeometry(width, height * 0.1);
 headerGeometry.translate(0, height * 0.451, 0);
 import headerArtURL from './piss.png';
-const headerArt = new THREE.MeshPhongMaterial({
+const headerArt = new THREE.MeshStandardMaterial({
 	color: 0xffffff,
-	specular: 0xffffff,
-	shininess: 30,
+	roughness: 0,
 	map: new THREE.TextureLoader().load(headerArtURL),
 })
 headerArt.map.anisotropy = window.maxAnisotropy;
 
 
-const boxMaterial = new THREE.MeshPhongMaterial({
+const boxMaterial = new THREE.MeshStandardMaterial({
 	color: 0x6666ff,
 	transparent: true,
 	opacity: 0.95,
-	specular: 0xffffff,
-	shininess: 30,
+	roughness: 0,
 })
 
 const generate = (url) => {
@@ -59,11 +57,11 @@ const generate = (url) => {
 	group.scale.setScalar(4);
 	group.position.z = 2;
 
-	const art = new THREE.Mesh(artGeometry, new THREE.MeshPhongMaterial({
+	const art = new THREE.Mesh(artGeometry, new THREE.MeshStandardMaterial({
 		color: 0xffffff,
 		map: new THREE.TextureLoader().load(url),
 		emissive: 0x111111,
-		shininess: 100,
+		roughness: 0,
 	}));
 	art.material.map.anisotropy = window.maxAnisotropy;
 	art.position.z = 0.0001;
@@ -82,9 +80,9 @@ const generate = (url) => {
 	headerClone.rotation.y = Math.PI;
 	group.add(headerClone);
 
-	/*const disclaimer = new THREE.Mesh(disclaimerGeometry, new THREE.MeshPhongMaterial({
+	/*const disclaimer = new THREE.Mesh(disclaimerGeometry, new THREE.MeshStandardMaterial({
 		color: 0xffffff,
-		shininess: 100,
+		roughness: 0,
 	}));
 	disclaimer.position.z = box.position.z * 2 * 0.85;
 	group.add(disclaimer);*/

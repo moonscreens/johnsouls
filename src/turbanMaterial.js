@@ -13,7 +13,7 @@ function generateTurbanMat(options) {
 	}
 	let uniforms = null;
 
-	const shimmeryMat = new THREE.MeshLambertMaterial({
+	const shimmeryMat = new THREE.MeshStandardMaterial({
 		...options
 	});
 	shimmeryMat.onBeforeCompile = function (shader) {

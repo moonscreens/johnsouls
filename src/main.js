@@ -277,7 +277,7 @@ for (let i = 0; i < boxArts.length; i++) {
 
 
 scene.background = new THREE.Color(0x000E16);
-scene.fog = new THREE.Fog(scene.background, 4, 150);
+scene.fog = new THREE.Fog(scene.background, 4, 300);
 
 
 
@@ -286,6 +286,12 @@ scene.add(spriteClouds);
 
 
 scene.add(new THREE.AmbientLight(0xffffff, 0.2));
+
+//const johnLight = new THREE.PointLight(0xff2211, 0.5, 5);
+const johnLight = new THREE.RectAreaLight(0xff2211, 1, 5, 1, 1);
+johnLight.lookAt(new THREE.Vector3(0, -1, 0));
+johnLight.position.copy(johnSoulsMesh.position);
+scene.add(johnLight);
 
 const backLight1 = new THREE.DirectionalLight(0xffffff, 0.5);
 backLight1.position.set(0, -1, -1);
