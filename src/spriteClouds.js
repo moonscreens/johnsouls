@@ -59,31 +59,29 @@ material.onBeforeCompile = function (shader) {
 			st *= 0.025;
 		}
 
-		float r_noise = snoise(vec3(st.x, st.y - u_time * .1, st.z + u_time * .01));
+		float r_noise = snoise(vec3(st.x * 0.8, st.y * 0.8 - u_time * .1, st.z + u_time * .01));
 		r_noise += snoise(vec3(st.x * 0.5, st.y * 0.5 - u_time * .1, st.z * 0.5 + u_time * .01)) * 0.5;
-		float radians = pow(3.0, r_noise) * PI * 0.02;
-		vec3 uv = vec3(cos(radians), sin(radians), cos(radians)) * 0.2 * (r_noise * 3.0);
+		float uv = cos(r_noise * PI * 0.001) * (r_noise * 0.5 + 0.5);
 
-		float color = snoise(vec3(st.x + uv.x, st.y, st.z - u_time * 0.1)) * 0.5 + 0.5;
+		float alpha = snoise(vec3(st.x, st.y + uv, st.z + u_time * 0.1)) * 0.5 + 0.5;
 
-		color += snoise(vec3(st.x - uv.x, st.y, st.z - u_time * 0.05) * 0.5) * 0.5;
 
-		float alpha = 1.0;
+		alpha -= (snoise(vec3(st.x * 5.0 + uv, st.y * 5.0, st.z + u_time * 0.5) * 0.5) * 0.5 + 0.5) * 0.1;
+		alpha -= (snoise(vec3(st.x * 5.0 + uv, st.y * 5.0, st.z + u_time * 0.25) * 0.5) * 0.5 + 0.5) * 0.1;
+
 
 		// fade higher pixels out
 		alpha *= max(0.0, min(1.0, 1.0 - vWorldPosition.y * 0.0025));
 
 		float fadeDistance = 1.5; // ThreeJS units
 		if (vWorldPosition.z > 0.0) {
-			alpha *= pow(max(0.0, min(1.0, smoothstep(0.0, 1.0, distance(vWorldPosition.xy, vec2(0.0, 1.95)) / fadeDistance))), 1.2);
+			alpha *= max(0.0, min(1.0, 1.0 - vWorldPosition.y * 0.25));
+			alpha *= pow(max(0.0, min(1.0, smoothstep(0.0, 1.0, distance(vWorldPosition.xy, vec2(0.0, 1.95)) / fadeDistance))), 4.0);
 		}
-
-		// fade in further pixels
-		//alpha = alpha + min(1.0, max(0.0, (-(vWorldPosition.z + 10.0) * .0005)));
 
 		diffuseColor = vec4(
 			vec3(0.5, 0.75, 1.0),
-			(pow(alpha, 6.0) * color)
+			(pow(alpha, 1.0))
 		);
 	`)}`;
 };
