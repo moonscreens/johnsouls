@@ -52,10 +52,11 @@ material.onBeforeCompile = function (shader) {
 		vec3 dim = vec3(0.0, 0.0, 0.0);
 		vec3 highlight = vec3(255.0, 255.0, 255.0);
 
-		vec3 st = vWorldPosition.xyz * 0.02;
-		
+		vec3 st = vWorldPosition.xyz;
 		if (vWorldPosition.z > 0.0) {
-			st.xyz *= 110.0;
+			st.xyz *= 2.0;
+		} else {
+			st *= 0.025;
 		}
 
 		float r_noise = snoise(vec3(st.x, st.y - u_time * .1, st.z + u_time * .01));
@@ -72,13 +73,9 @@ material.onBeforeCompile = function (shader) {
 		// fade higher pixels out
 		alpha *= max(0.0, min(1.0, 1.0 - vWorldPosition.y * 0.0025));
 
-		// fade out a "tunnel" close to the x/y center
-		float fadeDistance = 1.2; // ThreeJS units
-		//alpha *= pow(max(0.0, min(1.0, distance(st.xy, vec2(0.0, 0.0)) / fadeDistance)), 1.0);
-
+		float fadeDistance = 1.4; // ThreeJS units
 		if (vWorldPosition.z > 0.0) {
-			//alpha *= max(0.0, min(1.0, 1.0 - vWorldPosition.y * 0.25));
-			alpha *= pow(max(0.0, min(1.0, distance(vWorldPosition.xy, vec2(0.0, 1.5)) / fadeDistance)), 1.0);
+			alpha *= pow(max(0.0, min(1.0, distance(vWorldPosition.xy, vec2(0.0, 1.95)) / fadeDistance)), 1.2);
 		}
 
 		// fade in further pixels
