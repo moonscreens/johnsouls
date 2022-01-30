@@ -286,6 +286,18 @@ scene.fog = new THREE.Fog(scene.background, 4, 300);
 import spriteClouds from './spriteClouds';
 scene.add(spriteClouds);
 
+/*const ground = new THREE.Mesh(
+	new THREE.PlaneBufferGeometry(1000, 1000, 1, 1),
+	new THREE.MeshStandardMaterial({
+		color: 0x222222,
+		roughness: 0.6,
+		metalness: 0.75,
+	})
+)
+ground.rotateX(-Math.PI / 2);
+ground.position.y = -1;
+scene.add(ground);*/
+
 
 scene.add(new THREE.AmbientLight(0x7FB8FF, 0.2));
 
