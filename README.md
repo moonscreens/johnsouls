@@ -1,2 +1,2 @@
 # John Souls
-[link](https://johnsouls.netlify.app/)
+[link](https://johnsouls.opl.io/)
