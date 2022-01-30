@@ -73,9 +73,9 @@ material.onBeforeCompile = function (shader) {
 		// fade higher pixels out
 		alpha *= max(0.0, min(1.0, 1.0 - vWorldPosition.y * 0.0025));
 
-		float fadeDistance = 1.4; // ThreeJS units
+		float fadeDistance = 1.5; // ThreeJS units
 		if (vWorldPosition.z > 0.0) {
-			alpha *= pow(max(0.0, min(1.0, distance(vWorldPosition.xy, vec2(0.0, 1.95)) / fadeDistance)), 1.2);
+			alpha *= pow(max(0.0, min(1.0, smoothstep(0.0, 1.0, distance(vWorldPosition.xy, vec2(0.0, 1.95)) / fadeDistance))), 1.2);
 		}
 
 		// fade in further pixels
