@@ -185,6 +185,9 @@ johnImage.src = johnsmoulsURL;
 johnImage.onload = () => {
 	johnCanvas.width = johnImage.width;
 	johnCanvas.height = johnImage.height;
+	if (chairImage.complete) {
+		johnContext.drawImage(chairImage, 0, 0);
+	}
 	johnContext.drawImage(johnImage, 0, 0);
 	johnTexture.needsUpdate = true;
 };
