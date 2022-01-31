@@ -122,32 +122,13 @@ const sceneEmoteArray = [];
 const emoteGeometry = new THREE.PlaneGeometry(1, 1);
 ChatInstance.listen((emotes) => {
 	const group = new THREE.Group();
-	group.position.z = johnSoulsMesh.position.z - 1;
-	group.position.y = johnSoulsMesh.position.y;
+	group.position.z = johnSoulsMesh.position.z;
+	group.position.y = 2 + Math.random() * 4;
 
-	//give the group a random normalized offset
-	const offset = new THREE.Vector3(
-		Math.random() * 2 - 1,
-		Math.random() * 2 - 1,
-		Math.random() * 2 - 1
-	).normalize().multiplyScalar(0.25);
 
-	const rotationOffset = new THREE.Vector3(
-		Math.random() * 2 - 1,
-		Math.random() * 2 - 1,
-		Math.random() * 2 - 1
-	).normalize().multiplyScalar(0.5);
-
-	group.scale.setScalar(0.5);
 	group.lifespan = 10000;
 	group.timestamp = Date.now();
 
-	group.flipX = Math.random() > 0.5 ? 1 : -1;
-	group.flipY = Math.random() > 0.5 ? 0 : -1;
-
-	if (group.flipY < 0) {
-		offset.y -= 1;
-	}
 
 	let i = 0;
 	emotes.forEach((emote) => {
@@ -157,18 +138,25 @@ ChatInstance.listen((emotes) => {
 		i++;
 	})
 
-	group.position.x += Math.random() * 2 - 1;
-	group.position.y += Math.random() * 2 - 1;
-	group.position.z += Math.random() * 2 - 1;
-	group.velocity = new THREE.Vector3(
-		Math.random() * 10 - 5,
-		Math.random() * 10 - 5,
-		Math.random() * 10 - 5
-	).normalize();
+	const direction = Math.random() * Math.PI * 2;
+	const distance = Math.random() * 4 + 2;
+	group.position.x += Math.sin(direction) * distance * 2;
+	group.position.z += Math.cos(direction) * distance;
+
+	group.velocity = new THREE.Vector3();
 
 	group.update = (delta) => { // called every frame
-		//let progress = (Date.now() - group.timestamp) / group.lifespan;
-		group.velocity.add(getVelocity(group.position.x, group.position.y, group.position.z).multiplyScalar(delta));
+		let progress = (Date.now() - group.timestamp) / group.lifespan;
+
+		if (progress <= emoteFadeLength) {
+			group.scale.setScalar(Math.pow(progress * (1 / emoteFadeLength), 2) * emoteScale);
+		} else if (progress >= 1 - emoteFadeLength) {
+			group.scale.setScalar((1 - Math.pow((progress - (1 - emoteFadeLength)) * (1 / emoteFadeLength), 2)) * emoteScale);
+		} else if (group.scale.x !== emoteScale) {
+			group.scale.setScalar(emoteScale);
+		}
+
+		group.velocity.lerp(getVelocity(group.position.x, group.position.y, group.position.z), delta);
 		group.position.set(
 			group.position.x + group.velocity.x * delta,
 			group.position.y + group.velocity.y * delta,
@@ -180,6 +168,8 @@ ChatInstance.listen((emotes) => {
 	sceneEmoteArray.push(group);
 });
 
+const emoteFadeLength = 0.1;
+const emoteScale = 0.3;
 
 
 /*
@@ -218,7 +208,7 @@ chairImage.onload = () => {
 
 const JohnWidth = 3.5;
 const JohnHeight = JohnWidth * 2;
-const johnSoulsPlane = new THREE.PlaneBufferGeometry(JohnWidth, JohnHeight, 256, 256);
+const johnSoulsPlane = new THREE.PlaneBufferGeometry(JohnWidth, JohnHeight, 1, 1);
 const johnTexture = new THREE.Texture(johnCanvas);
 
 const johnSoulsMesh = new THREE.Mesh(
