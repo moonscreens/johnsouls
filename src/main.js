@@ -253,7 +253,7 @@ johnSoulsMesh.add(JohnHat);
 /* game boxes */
 import newBoxArt from './boxart';
 
-import demonsoulsURL from './games/demonsouls.avif';
+import demonsoulsURL from './games/demonsouls.webp';
 const gamebox = newBoxArt(demonsoulsURL);
 gamebox.position.z = -3.8;
 gamebox.position.y = -0.35;
@@ -265,11 +265,11 @@ setInterval(() => {
 scene.add(gamebox);
 
 
-import darkSoulsURL from './games/darksouls.avif';
-import darkSouls2URL from './games/darksouls2.avif';
-import darkSouls3URL from './games/darksouls3.avif';
-import eldenringURL from './games/eldenring.avif';
-import bloodborneURL from './games/bloodborne.avif';
+import darkSoulsURL from './games/darksouls.webp';
+import darkSouls2URL from './games/darksouls2.webp';
+import darkSouls3URL from './games/darksouls3.webp';
+import eldenringURL from './games/eldenring.webp';
+import bloodborneURL from './games/bloodborne.webp';
 const boxArts = [
 	newBoxArt(darkSoulsURL),
 	newBoxArt(darkSouls2URL),
