@@ -92,7 +92,7 @@ function draw() {
 			sceneEmoteArray.splice(index, 1);
 			scene.remove(element);
 		} else {
-			element.update();
+			element.update(delta);
 		}
 	}
 	lastFrame = Date.now();
@@ -115,6 +115,9 @@ function draw() {
 /*
 ** Handle Twitch Chat Emotes
 */
+
+import getVelocity from "./getVelocity";
+
 const sceneEmoteArray = [];
 const emoteGeometry = new THREE.PlaneGeometry(1, 1);
 ChatInstance.listen((emotes) => {
@@ -154,15 +157,23 @@ ChatInstance.listen((emotes) => {
 		i++;
 	})
 
+	group.position.x += Math.random() * 2 - 1;
+	group.position.y += Math.random() * 2 - 1;
+	group.position.z += Math.random() * 2 - 1;
+	group.velocity = new THREE.Vector3(
+		Math.random() * 10 - 5,
+		Math.random() * 10 - 5,
+		Math.random() * 10 - 5
+	).normalize();
 
-	group.update = () => { // called every frame
-		let progress = (Date.now() - group.timestamp) / group.lifespan;
-		group.position.z = johnSoulsMesh.position.z - 1 + progress * 9 + offset.z;
-		group.position.x = ((Math.sin(progress * Math.PI * 2) * 3) * group.flipX + offset.x) * (group.flipY ? 2 : 1);
-		group.position.y = Math.sin(progress * Math.PI * 2) * 1 * group.flipY + johnSoulsMesh.position.y + offset.y;
-
-		group.rotation.x = progress * Math.PI * 2 + rotationOffset.x;
-		group.rotation.z = progress * Math.PI * 2 + rotationOffset.z;
+	group.update = (delta) => { // called every frame
+		//let progress = (Date.now() - group.timestamp) / group.lifespan;
+		group.velocity.add(getVelocity(group.position.x, group.position.y, group.position.z).multiplyScalar(delta));
+		group.position.set(
+			group.position.x + group.velocity.x * delta,
+			group.position.y + group.velocity.y * delta,
+			group.position.z + group.velocity.z * delta,
+		)
 	}
 
 	scene.add(group);
