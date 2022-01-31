@@ -269,11 +269,13 @@ import darkSoulsURL from './games/darksouls.png';
 import darkSouls2URL from './games/darksouls2.png';
 import darkSouls3URL from './games/darksouls3.png';
 import eldenringURL from './games/eldenring.png';
+import bloodborneURL from './games/bloodborne.png';
 const boxArts = [
 	newBoxArt(darkSoulsURL),
 	newBoxArt(darkSouls2URL),
 	newBoxArt(darkSouls3URL),
 	newBoxArt(eldenringURL),
+	newBoxArt(bloodborneURL),
 ];
 for (let i = 0; i < boxArts.length; i++) {
 	scene.add(boxArts[i]);
