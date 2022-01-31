@@ -7,9 +7,9 @@ const offset = 0.1;
 const gravityInverseStart = 0;
 
 const getVelocity = (ox, oy, oz) => {
-	const x = ox * 0.3;
-	const y = oy * 0.3;
-	const z = oz * 0.3;
+	const x = ox * 0.5;
+	const y = oy * 0.5;
+	const z = oz * 0.5;
 	const t = performance.now() * 0.0001;
 	dummy.x = simplex.noise4D(x - offset, y, z, t) - simplex.noise4D(x + offset, y, z, t);
 	dummy.y = simplex.noise4D(x, y - offset, z, t) - simplex.noise4D(x, y + offset, z, t);
@@ -28,8 +28,8 @@ const getVelocity = (ox, oy, oz) => {
 
 	// make emotes swirl around 0, 0, 3
 	const angle = Math.atan2(ox, oz + 3);
-	//dummy.x += Math.sin(angle + Math.PI * 0.5) * 1;
-	//dummy.z += Math.cos(angle + Math.PI * 0.5) * 1;
+	dummy.x += Math.sin(angle + Math.PI * 0.5) * 0.35;
+	dummy.z += Math.cos(angle + Math.PI * 0.5) * 0.35;
 
 	if (distance < 2) {
 		dummy.x += Math.sin(angle) * (2 - distance / 2);
