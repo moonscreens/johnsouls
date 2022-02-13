@@ -235,12 +235,12 @@ scene.add(johnSoulsMesh);
 
 const hatSize = 4;
 import hatURL from './hat.png';
+import hatBlurURL from './hatBlur.png';
 const JohnHat = new THREE.Mesh(
 	new THREE.CylinderBufferGeometry(hatSize * 0.75, JohnWidth * 0.09, hatSize, 64, 64, true),
 	generateTurbanMat({
-		map: new THREE.TextureLoader().load(hatURL),
-		bumpMap: new THREE.TextureLoader().load(hatURL),
-		bumpScale: 0.007,
+		bumpMap: new THREE.TextureLoader().load(hatBlurURL),
+		bumpScale: 0.01,
 		color: 0xffffff,
 		roughness: 0.5,
 		metalness: 0.25,
