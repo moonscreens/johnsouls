@@ -244,7 +244,7 @@ const JohnHat = new THREE.Mesh(
 		metalness: 0.25,
 	})
 )
-JohnHat.geometry.rotateY(Math.PI / 2);
+JohnHat.geometry.rotateY(-Math.PI);
 JohnHat.position.y += hatSize * 0.5 + JohnHeight * 0.16;
 JohnHat.position.x += JohnWidth * 0.118;
 johnSoulsMesh.add(JohnHat);
