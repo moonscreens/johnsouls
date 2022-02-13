@@ -25,14 +25,15 @@ function generateTurbanMat(options) {
 			${webGLSimplex3DNoise}
 			${shader.vertexShader}`;
 		shader.vertexShader = shader.vertexShader.replace(
-			'#include <begin_vertex>',
+			'#include <displacementmap_vertex>',
 			`
+			#include <displacementmap_vertex>
 			// scales based on how high the vertex is from the base
 			float transformScale = (position.y + 2.0) / 5.0;
 
 			float time = u_time * 0.1;
 			float hatNoise = snoise(vec3(position.y * 0.5 - time, position.x * 0.1, position.z * 0.1 + time * 0.25));
-			vec3 transformed = position + vec3(
+			transformed += vec3(
 				-sin(hatNoise * 3.14),
 				0,
 				cos(hatNoise * 3.14)
