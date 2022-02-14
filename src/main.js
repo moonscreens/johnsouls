@@ -239,18 +239,18 @@ import hatBlurURL from './hatBlur.png';
 const JohnHat = new THREE.Mesh(
 	new THREE.CylinderBufferGeometry(hatSize * 0.75, JohnWidth * 0.09, hatSize, 64, 64, true),
 	generateTurbanMat({
+		map: new THREE.TextureLoader().load(hatURL),
 		bumpMap: new THREE.TextureLoader().load(hatBlurURL),
-		bumpScale: 0.01,
-		color: 0xffffff,
-		roughness: 0.5,
-		metalness: 0.25,
+		bumpScale: 0.007,
+		color: 0x777777,
+		roughness: 0.9,
+		metalness: 0,
 	})
 )
 JohnHat.geometry.rotateY(-Math.PI);
 JohnHat.position.y += hatSize * 0.5 + JohnHeight * 0.16;
 JohnHat.position.x += JohnWidth * 0.118;
 johnSoulsMesh.add(JohnHat);
-
 
 /* game boxes */
 import newBoxArt from './boxart';
@@ -294,6 +294,17 @@ scene.fog = new THREE.Fog(scene.background, 4, 300);
 import spriteClouds from './spriteClouds';
 scene.add(spriteClouds);
 
+const envGenerator = new THREE.PMREMGenerator(renderer);
+envGenerator.compileCubemapShader();
+
+import envMapURL from './envmap.jpg';
+new THREE.TextureLoader().load(envMapURL, texture => {
+	const envMap = envGenerator.fromEquirectangular(texture);
+
+	scene.environment = envMap.texture;
+});
+
+
 /*const ground = new THREE.Mesh(
 	new THREE.PlaneBufferGeometry(1000, 1000, 1, 1),
 	new THREE.MeshStandardMaterial({
@@ -306,8 +317,6 @@ ground.rotateX(-Math.PI / 2);
 ground.position.y = -1;
 scene.add(ground);*/
 
-
-scene.add(new THREE.AmbientLight(0x7FB8FF, 0.2));
 
 //const johnLight = new THREE.PointLight(0xff2211, 0.5, 5);
 const johnLight = new THREE.RectAreaLight(0xff2211, 0.5, 7, 7);

@@ -40,7 +40,8 @@ const boxMaterial = new THREE.MeshStandardMaterial({
 	color: 0x6666ff,
 	transparent: true,
 	opacity: 0.95,
-	roughness: 0.25,
+	roughness: 0.5,
+	metalness: 0.5,
 })
 
 const generate = (url) => {
@@ -60,7 +61,6 @@ const generate = (url) => {
 	const art = new THREE.Mesh(artGeometry, new THREE.MeshStandardMaterial({
 		color: 0xffffff,
 		map: new THREE.TextureLoader().load(url),
-		emissive: 0x111111,
 		roughness: 0.25,
 	}));
 	art.material.map.anisotropy = window.maxAnisotropy;
