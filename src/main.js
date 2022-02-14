@@ -241,7 +241,7 @@ const JohnHat = new THREE.Mesh(
 	generateTurbanMat({
 		map: new THREE.TextureLoader().load(hatURL),
 		bumpMap: new THREE.TextureLoader().load(hatBlurURL),
-		bumpScale: 0.007,
+		bumpScale: 0.005,
 		color: 0x777777,
 		roughness: 0.9,
 		metalness: 0,
