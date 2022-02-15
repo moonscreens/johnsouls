@@ -59,15 +59,16 @@ material.onBeforeCompile = function (shader) {
 			st *= 0.025;
 		}
 
-		float r_noise = snoise(vec3(st.x * 0.8, st.y * 0.8 - u_time * .1, st.z + u_time * .01));
-		r_noise += snoise(vec3(st.x * 0.5, st.y * 0.5 - u_time * .1, st.z * 0.5 + u_time * .01)) * 0.5;
-		float uv = cos(r_noise * PI * 0.001) * (r_noise * 0.5 + 0.5);
+		float rotational_noise = snoise(vec3(st.x * 0.8, st.y * 0.8 - u_time * .1, st.z + u_time * .01));
+		rotational_noise += snoise(vec3(st.x * 0.5, st.y * 0.5 - u_time * .1, st.z * 0.5 + u_time * .01)) * 0.5;
+		float uv = cos(rotational_noise * PI * 0.001) * (rotational_noise * 0.5 + 0.5);
 
 		float alpha = snoise(vec3(st.x, st.y + uv, st.z + u_time * 0.1)) * 0.5 + 0.5;
 
+		float distance_noise = snoise(vec3(st.x * 0.6, st.y * 0.6, st.z - u_time * .15)) * 2.5;
 
-		alpha -= (snoise(vec3(st.x * 5.0 + uv, st.y * 5.0, st.z + u_time * 0.5) * 0.5) * 0.5 + 0.5) * 0.1;
-		alpha -= (snoise(vec3(st.x * 5.0 + uv, st.y * 5.0, st.z + u_time * 0.25) * 0.5) * 0.5 + 0.5) * 0.1;
+		alpha -= (snoise(vec3(st.x * 5.0 + uv * distance_noise, st.y * 5.0, st.z + u_time * 0.5) * 0.5) * 0.5 + 0.5) * 0.1;
+		alpha -= (snoise(vec3(st.x * 5.0 + uv * distance_noise, st.y * 5.0, st.z + u_time * 0.25) * 0.5) * 0.5 + 0.5) * 0.1;
 
 
 		// fade higher pixels out
