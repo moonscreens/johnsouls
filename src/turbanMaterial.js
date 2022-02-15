@@ -44,7 +44,7 @@ function generateTurbanMat(options, depthOnly = false) {
 				-sin(hatNoise * 3.14),
 				0,
 				cos(hatNoise * 3.14)
-			) * (transformScale) * 1.0;
+			) * (transformScale) * 0.8;
 			`,
 		);
 
