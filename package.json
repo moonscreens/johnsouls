@@ -25,8 +25,8 @@
 		"simplex-noise": "^3.0.1",
 		"stats-js": "^1.0.1",
 		"style-loader": "^3.1.0",
-		"three": "^0.134.0",
-		"twitch-chat-emotes-threejs": "^0.2.0",
+		"three": "^0.137.5",
+		"twitch-chat-emotes-threejs": "^0.3.0",
 		"webpack": "^5.44.0",
 		"webpack-cli": "^4.7.2"
 	},

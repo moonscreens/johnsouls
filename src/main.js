@@ -31,6 +31,8 @@ if (query_vars.stats) {
 }
 
 const ChatInstance = new TwitchChat({
+	THREE,
+
 	// If using planes, consider using MeshBasicMaterial instead of SpriteMaterial
 	materialType: THREE.MeshBasicMaterial,
 
@@ -60,6 +62,9 @@ camera.lookAt(0, 2.5, 0);
 
 const scene = new THREE.Scene();
 const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
 window.maxAnisotropy = renderer.capabilities.getMaxAnisotropy();
 
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -243,16 +248,24 @@ const JohnHat = new THREE.Mesh(
 		map: new THREE.TextureLoader().load(hatURL),
 		bumpMap: new THREE.TextureLoader().load(hatBlurURL),
 		bumpScale: 0.005,
-		displacementMap: new THREE.TextureLoader().load(hatDisplaceURL),
-		displacementScale: 0.15,
+		//displacementMap: new THREE.TextureLoader().load(hatDisplaceURL),
+		//displacementScale: 0.15,
 		color: 0xBBBBBB,
 		roughness: 1,
 		metalness: 0.1,
 	})
 )
+console.log(JohnHat)
+JohnHat.customDepthMaterial = generateTurbanMat({
+	depthPacking: THREE.RGBADepthPacking,
+	displacementMap: JohnHat.material.displacementMap,
+	displacementScale: 0.15,
+}, true)
 JohnHat.geometry.rotateY(-Math.PI);
 JohnHat.position.y += hatSize * 0.5 + JohnHeight * 0.16;
 JohnHat.position.x += JohnWidth * 0.118;
+JohnHat.castShadow = true;
+JohnHat.receiveShadow = true;
 johnSoulsMesh.add(JohnHat);
 
 /* game boxes */
@@ -320,29 +333,41 @@ ground.rotateX(-Math.PI / 2);
 ground.position.y = -1;
 scene.add(ground);*/
 
+const initLightShadows = (light) => {
+	light.castShadow = true;
+	light.shadow.mapSize.width = 64;
+	light.shadow.mapSize.height = 64;
+	light.shadow.camera.near = 0.1;
+	light.shadow.camera.far = 10;
+	light.shadow.bias = -0.001;
+}
 
 //const johnLight = new THREE.PointLight(0xff2211, 0.5, 5);
-const johnLight = new THREE.RectAreaLight(0xff2211, 0.8, 7, 7);
+const johnLight = new THREE.SpotLight(0xff2211, 0.8, 10, Math.PI / 2);
 johnLight.lookAt(new THREE.Vector3(0, -1, 0));
-johnLight.position.copy(johnSoulsMesh.position);
+johnLight.position.set(0, 3, 0);
 scene.add(johnLight);
-scene.add(johnLight.clone().rotateX(Math.PI));
 
+const hatLight = new THREE.SpotLight(0xFF4C00, 1, 20, Math.PI / 6);
+hatLight.position.set(0, -1, johnSoulsMesh.position.z + 2);
+hatLight.target.position.set(0, 10, johnSoulsMesh.position.z);
+hatLight.target.position.matrixWorldNeedsUpdate = true;
+scene.add(hatLight);
+scene.add(hatLight.target);
+initLightShadows(hatLight);
 
-
-const backLight1 = new THREE.DirectionalLight(0x00B8FF, 0.4);
-backLight1.position.set(0, -1, -1);
+const backLight1 = new THREE.SpotLight(0x00B8FF, 0.4, 20);
+backLight1.position.set(3, -4, -3);
+backLight1.target.position.set(0, 10, 0);
+backLight1.target.position.matrixWorldNeedsUpdate = true;
 scene.add(backLight1);
+scene.add(backLight1.target);
+initLightShadows(backLight1);
 
-const backLight2 = new THREE.DirectionalLight(0x00B8FF, 0.4);
-backLight2.position.set(0, 1, -1);
+const backLight2 = new THREE.SpotLight(0x00B8FF, 0.4, 20);
+backLight2.position.set(-3, -4, -3);
+backLight2.target.position.set(0, 10, 0);
+backLight2.target.position.matrixWorldNeedsUpdate = true;
 scene.add(backLight2);
-
-/*const frontLight = new THREE.DirectionalLight(0x7FB8FF, 0.15);
-frontLight.position.set(0, 0, 1);
-scene.add(frontLight);*/
-
-const bottomLight = new THREE.SpotLight(0x7FB8FF, 1, 15, Math.PI / 4, 1, 1);
-bottomLight.position.set(0, -10, 0);
-bottomLight.target.position.set(0, 0, 0);
-scene.add(bottomLight);
+scene.add(backLight2.target);
+initLightShadows(backLight2);

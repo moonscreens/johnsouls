@@ -1,25 +1,32 @@
 import * as THREE from 'three';
 import webGLSimplex3DNoise from './simplex3DShaderCode';
 
-function generateTurbanMat(options) {
-	let lastFrame = Date.now();
-	const tick = () => {
-		const delta = (Date.now() - lastFrame) / 1000;
-		lastFrame = Date.now();
-		if (uniforms) {
-			uniforms.u_time.value += delta;
-		}
-		window.requestAnimationFrame(tick);
+let lastFrame = Date.now();
+const tick = () => {
+	const delta = (Date.now() - lastFrame) / 1000;
+	lastFrame = Date.now();
+	if (uniforms) {
+		uniforms.u_time.value += delta;
 	}
-	let uniforms = null;
+	window.requestAnimationFrame(tick);
+}
+let uniforms = null;
 
-	const shimmeryMat = new THREE.MeshStandardMaterial({
+function generateTurbanMat(options, depthOnly = false) {
+	const matType = depthOnly ? THREE.MeshDepthMaterial : THREE.MeshStandardMaterial;
+
+	const turbanMat = new matType({
+		side: THREE.DoubleSide,
 		...options
 	});
-	shimmeryMat.onBeforeCompile = function (shader) {
-		shader.uniforms.u_time = { value: Math.random() * 1000 };
-		uniforms = shader.uniforms;
-		tick();
+	turbanMat.onBeforeCompile = function (shader) {
+		if (!uniforms) {
+			shader.uniforms.u_time = { value: Math.random() * 1000 };
+			uniforms = shader.uniforms;
+			tick();
+		} else {
+			shader.uniforms.u_time = uniforms.u_time;
+		}
 		shader.vertexShader = `
 			uniform float u_time;
 			${webGLSimplex3DNoise}
@@ -41,15 +48,15 @@ function generateTurbanMat(options) {
 			`,
 		);
 
-		shimmeryMat.userData.shader = shader;
+		turbanMat.userData.shader = shader;
 	};
 
 	// Make sure WebGLRenderer doesn't reuse a single program
-	shimmeryMat.customProgramCacheKey = function () {
+	turbanMat.customProgramCacheKey = function () {
 		return parseInt(window.shaderPID++); // some random ish number
 	};
 
-	return shimmeryMat;
+	return turbanMat;
 }
 
 
