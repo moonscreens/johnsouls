@@ -29,7 +29,7 @@ function generateTurbanMat(options) {
 			`
 			#include <displacementmap_vertex>
 			// scales based on how high the vertex is from the base
-			float transformScale = (position.y + 2.0) / 5.0;
+			float transformScale = max(0.0, (position.y + 2.0) / 5.0);
 
 			float time = u_time * 0.1;
 			float hatNoise = snoise(vec3(position.y * 0.5 - time, position.x * 0.1, position.z * 0.1 + time * 0.25));
