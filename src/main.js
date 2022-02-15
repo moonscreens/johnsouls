@@ -181,8 +181,8 @@ const emoteScale = 0.3;
 ** Set up scene
 */
 
-import johnsmoulsURL from "./johnsmouls.png";
-import johnsmoulsHighlightURL from "./johnsmoulsCutout.png";
+import johnsmoulsURL from "./johnsmouls.avif";
+import johnsmoulsHighlightURL from "./johnsmoulsCutout.avif";
 
 const johnCanvas = document.createElement('canvas');
 const johnContext = johnCanvas.getContext('2d');
@@ -198,7 +198,7 @@ johnImage.onload = () => {
 	johnTexture.needsUpdate = true;
 };
 
-import johnChairURL from "./johnChair.png";
+import johnChairURL from "./johnChair.avif";
 const chairImage = new Image();
 chairImage.src = johnChairURL;
 chairImage.onload = () => {
