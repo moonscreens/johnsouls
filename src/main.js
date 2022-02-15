@@ -239,9 +239,9 @@ johnSoulsMesh.position.set(0, 3.02, -3);
 scene.add(johnSoulsMesh);
 
 const hatSize = 4;
-import hatURL from './hat.png';
-import hatBlurURL from './hatBlur.png';
-import hatDisplaceURL from './hatDisplace.png';
+import hatURL from './hat.avif';
+import hatBlurURL from './hatBlur.avif';
+import hatDisplaceURL from './hatDisplace.avif';
 const JohnHat = new THREE.Mesh(
 	new THREE.CylinderBufferGeometry(hatSize * 0.75, JohnWidth * 0.093, hatSize, 256, 1024, true),
 	generateTurbanMat({
