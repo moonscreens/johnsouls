@@ -243,13 +243,13 @@ import hatURL from './hat.png';
 import hatBlurURL from './hatBlur.png';
 import hatDisplaceURL from './hatDisplace.png';
 const JohnHat = new THREE.Mesh(
-	new THREE.CylinderBufferGeometry(hatSize * 0.75, JohnWidth * 0.093, hatSize, 512, 512, true),
+	new THREE.CylinderBufferGeometry(hatSize * 0.75, JohnWidth * 0.093, hatSize, 256, 1024, true),
 	generateTurbanMat({
 		map: new THREE.TextureLoader().load(hatURL),
 		bumpMap: new THREE.TextureLoader().load(hatBlurURL),
-		bumpScale: 0.005,
-		//displacementMap: new THREE.TextureLoader().load(hatDisplaceURL),
-		//displacementScale: 0.15,
+		bumpScale: 0.01,
+		displacementMap: new THREE.TextureLoader().load(hatDisplaceURL),
+		displacementScale: 0.15,
 		color: 0xBBBBBB,
 		roughness: 1,
 		metalness: 0.1,
@@ -259,7 +259,7 @@ console.log(JohnHat)
 JohnHat.customDepthMaterial = generateTurbanMat({
 	depthPacking: THREE.RGBADepthPacking,
 	displacementMap: JohnHat.material.displacementMap,
-	displacementScale: 0.15,
+	displacementScale: JohnHat.material.displacementScale,
 }, true)
 JohnHat.geometry.rotateY(-Math.PI);
 JohnHat.position.y += hatSize * 0.5 + JohnHeight * 0.16;
