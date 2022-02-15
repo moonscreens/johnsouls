@@ -252,7 +252,7 @@ const JohnHat = new THREE.Mesh(
 		displacementScale: 0.15,
 		color: 0xBBBBBB,
 		roughness: 1,
-		metalness: 0.1,
+		metalness: 0,
 	})
 )
 console.log(JohnHat)
