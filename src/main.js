@@ -341,6 +341,10 @@ const initLightShadows = (light) => {
 	light.shadow.bias = -0.001;
 }
 
+const lightTarget = new THREE.Object3D();
+lightTarget.position.set(0, 10, johnSoulsMesh.position.z);
+scene.add(lightTarget);
+
 //const johnLight = new THREE.PointLight(0xff2211, 0.5, 5);
 const johnLight = new THREE.SpotLight(0xFF4C00, 0.8, 10, Math.PI / 2);
 johnLight.lookAt(new THREE.Vector3(0, -1, 0));
@@ -348,25 +352,19 @@ johnLight.position.set(0, 3, 0);
 scene.add(johnLight);
 
 const hatLight = new THREE.SpotLight(0xFF4C00, 1, 20, Math.PI / 6);
-hatLight.position.set(0, -1, johnSoulsMesh.position.z + 2);
-hatLight.target.position.set(0, 10, johnSoulsMesh.position.z);
-hatLight.target.position.matrixWorldNeedsUpdate = true;
+hatLight.position.set(0, 0, johnSoulsMesh.position.z + 1);
+hatLight.target = lightTarget;
 scene.add(hatLight);
-scene.add(hatLight.target);
 initLightShadows(hatLight);
 
 const backLight1 = new THREE.SpotLight(0x00B8FF, 0.6, 20);
-backLight1.position.set(3, -4, -3);
-backLight1.target.position.set(0, 10, 0);
-backLight1.target.position.matrixWorldNeedsUpdate = true;
+backLight1.position.set(3, 0, -3);
+backLight1.target = lightTarget;
 scene.add(backLight1);
-scene.add(backLight1.target);
 initLightShadows(backLight1);
 
 const backLight2 = new THREE.SpotLight(0x00B8FF, 0.6, 20);
-backLight2.position.set(-3, -4, -3);
-backLight2.target.position.set(0, 10, 0);
-backLight2.target.position.matrixWorldNeedsUpdate = true;
+backLight2.position.set(-3, 0, -3);
+backLight2.target = lightTarget;
 scene.add(backLight2);
-scene.add(backLight2.target);
 initLightShadows(backLight2);
