@@ -22,7 +22,7 @@ module.exports = {
 	module: {
 		rules: [
 			{
-				test: /\.(png|jpe?g|gif|webp|avif)$/i,
+				test: /\.(png|jpe?g|gif|webp|avif|gltf|glb)$/i,
 				loader: 'file-loader',
 				options: {
 					outputPath: 'images',
