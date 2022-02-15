@@ -255,7 +255,6 @@ const JohnHat = new THREE.Mesh(
 		metalness: 0,
 	})
 )
-console.log(JohnHat)
 JohnHat.customDepthMaterial = generateTurbanMat({
 	depthPacking: THREE.RGBADepthPacking,
 	displacementMap: JohnHat.material.displacementMap,
