@@ -13,7 +13,7 @@ const tick = () => {
 let uniforms = null;
 
 function generateTurbanMat(options, depthOnly = false) {
-	const matType = depthOnly ? THREE.MeshDepthMaterial : THREE.MeshStandardMaterial;
+	const matType = depthOnly ? THREE.MeshDepthMaterial : THREE.MeshPhongMaterial;
 
 	const turbanMat = new matType({
 		side: THREE.DoubleSide,

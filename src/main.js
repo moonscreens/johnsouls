@@ -250,9 +250,9 @@ const JohnHat = new THREE.Mesh(
 		bumpScale: 0.01,
 		displacementMap: new THREE.TextureLoader().load(hatDisplaceURL),
 		displacementScale: 0.15,
-		color: 0xBBBBBB,
-		roughness: 1,
-		metalness: 0,
+		color: 0xFFFFFF,
+		specular: 0xff2211,
+		shininess: 0,
 	})
 )
 JohnHat.customDepthMaterial = generateTurbanMat({
@@ -342,7 +342,7 @@ const initLightShadows = (light) => {
 }
 
 //const johnLight = new THREE.PointLight(0xff2211, 0.5, 5);
-const johnLight = new THREE.SpotLight(0xff2211, 0.8, 10, Math.PI / 2);
+const johnLight = new THREE.SpotLight(0xFF4C00, 0.8, 10, Math.PI / 2);
 johnLight.lookAt(new THREE.Vector3(0, -1, 0));
 johnLight.position.set(0, 3, 0);
 scene.add(johnLight);
@@ -355,7 +355,7 @@ scene.add(hatLight);
 scene.add(hatLight.target);
 initLightShadows(hatLight);
 
-const backLight1 = new THREE.SpotLight(0x00B8FF, 0.4, 20);
+const backLight1 = new THREE.SpotLight(0x00B8FF, 0.6, 20);
 backLight1.position.set(3, -4, -3);
 backLight1.target.position.set(0, 10, 0);
 backLight1.target.position.matrixWorldNeedsUpdate = true;
@@ -363,7 +363,7 @@ scene.add(backLight1);
 scene.add(backLight1.target);
 initLightShadows(backLight1);
 
-const backLight2 = new THREE.SpotLight(0x00B8FF, 0.4, 20);
+const backLight2 = new THREE.SpotLight(0x00B8FF, 0.6, 20);
 backLight2.position.set(-3, -4, -3);
 backLight2.target.position.set(0, 10, 0);
 backLight2.target.position.matrixWorldNeedsUpdate = true;
