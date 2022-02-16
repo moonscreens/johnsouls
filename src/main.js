@@ -315,7 +315,6 @@ envGenerator.compileCubemapShader();
 import envMapURL from './envmap.jpg';
 new THREE.TextureLoader().load(envMapURL, texture => {
 	const envMap = envGenerator.fromEquirectangular(texture);
-
 	scene.environment = envMap.texture;
 });
 
