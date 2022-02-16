@@ -243,7 +243,7 @@ import hatURL from './hat.avif';
 import hatBlurURL from './hatBlur.avif';
 import hatDisplaceURL from './hatDisplace.avif';
 const JohnHat = new THREE.Mesh(
-	new THREE.CylinderBufferGeometry(hatSize * 0.75, JohnWidth * 0.093, hatSize, 256, 1024, true),
+	new THREE.CylinderBufferGeometry(hatSize * 0.75, JohnWidth * 0.093, hatSize, 100, 600, true),
 	generateTurbanMat({
 		map: new THREE.TextureLoader().load(hatURL),
 		bumpMap: new THREE.TextureLoader().load(hatBlurURL),
