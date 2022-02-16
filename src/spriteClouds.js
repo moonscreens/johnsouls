@@ -60,7 +60,7 @@ material.onBeforeCompile = function (shader) {
 		}
 
 		float rotational_noise = snoise(vec3(st.x * 0.8, st.y * 0.8 - u_time * .1, st.z + u_time * .01)) * 1.5;
-		rotational_noise += snoise(vec3(st.x * 0.5, st.y * 0.5 - u_time * .1, st.z * 0.5 + u_time * .01)) * 0.5;
+		rotational_noise += snoise(vec3(st.x * 0.5, st.y * 0.5 - u_time * .1, st.z * 0.5 + u_time * .01)) * 3.0;
 		float uv = cos(rotational_noise * PI * 0.001) * (rotational_noise * 0.5 + 0.5);
 
 		float alpha = snoise(vec3(st.x, st.y + uv, st.z + u_time * 0.1)) * 0.5 + 0.5;
