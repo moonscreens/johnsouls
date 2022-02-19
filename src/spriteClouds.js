@@ -73,7 +73,7 @@ material.onBeforeCompile = function (shader) {
 		vec2 uv = vec2(cos(rotational_noise * PI * 0.15), sin(rotational_noise * PI * 0.15)) * distance_noise;
 
 		timehelper = u_time * 0.05;
-		float alpha = snoise(vec3(st.x + uv.x, st.y, st.z + uv.y + timehelper)) * 0.5 + 0.5;
+		float alpha = snoise(vec3(st.x + uv.x, st.y + uv.y, st.z + timehelper)) * 0.5 + 0.5;
 
 		// fade higher pixels out
 		alpha *= max(0.0, min(1.0, 1.0 - vWorldPosition.y * 0.0025));
