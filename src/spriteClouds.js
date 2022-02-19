@@ -59,14 +59,21 @@ material.onBeforeCompile = function (shader) {
 			st *= 0.025;
 		}
 
-		float rotational_noise = snoise(vec3(st.x * 0.8, st.y * 0.8 - u_time * .1, st.z + u_time * .01)) * 1.5;
-		rotational_noise += snoise(vec3(st.x * 0.5, st.y * 0.5 - u_time * .1, st.z * 0.5 + u_time * .01)) * 3.0;
-		float uv = cos(rotational_noise * PI * 0.001) * (rotational_noise * 0.5 + 0.5);
+		float spacehelper = 1.0;
+		float timehelper = u_time * 0.1;
+		float rotational_noise = snoise(vec3(st.x * spacehelper, st.y * spacehelper - timehelper, st.z * spacehelper + timehelper)) * 1.5;
+		spacehelper = 0.8;
+		timehelper = u_time * 0.2;
+		rotational_noise += snoise(vec3(st.x * spacehelper, st.y * spacehelper - timehelper, st.z * spacehelper + timehelper)) * 1.0;
+		//rotational_noise = pow(rotational_noise, 2.0);
+		
+		spacehelper = 0.5;
+		timehelper = u_time * 0.075;
+		float distance_noise = snoise(vec3(st.x * spacehelper, st.y * spacehelper - timehelper, st.z * spacehelper + timehelper)) * 0.5;
+		vec2 uv = vec2(cos(rotational_noise * PI * 0.1), sin(rotational_noise * PI * 0.1)) * distance_noise;
 
-		float alpha = snoise(vec3(st.x, st.y + uv, st.z + u_time * 0.1)) * 0.5 + 0.5;
-
-		alpha -= (snoise(vec3(st.x * 5.0 + uv, st.y * 5.0, st.z + u_time * 0.5) * 0.5) * 0.5 + 0.5) * 0.1;
-		alpha -= (snoise(vec3(st.x * 5.0 + uv, st.y * 5.0, st.z + u_time * 0.25) * 0.5) * 0.5 + 0.5) * 0.1;
+		timehelper = u_time * 0.1;
+		float alpha = snoise(vec3(st.x + uv.x, st.y, st.z + uv.y + timehelper)) * 0.5 + 0.5;
 
 		// fade higher pixels out
 		alpha *= max(0.0, min(1.0, 1.0 - vWorldPosition.y * 0.0025));
@@ -79,7 +86,7 @@ material.onBeforeCompile = function (shader) {
 
 		diffuseColor = vec4(
 			vec3(0.5, 0.75, 1.0),
-			(pow(alpha, 1.0))
+			alpha
 		);
 	`)}`;
 };
