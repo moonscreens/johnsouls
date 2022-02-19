@@ -70,7 +70,7 @@ material.onBeforeCompile = function (shader) {
 		spacehelper = 0.5;
 		timehelper = u_time * 0.035;
 		float distance_noise = snoise(vec3(st.x * spacehelper, st.y * spacehelper - timehelper, st.z * spacehelper + timehelper)) * 0.75;
-		vec2 uv = vec2(cos(rotational_noise * PI * 0.2), sin(rotational_noise * PI * 0.2)) * distance_noise;
+		vec2 uv = vec2(cos(rotational_noise * PI * 0.15), sin(rotational_noise * PI * 0.15)) * distance_noise;
 
 		timehelper = u_time * 0.05;
 		float alpha = snoise(vec3(st.x + uv.x, st.y, st.z + uv.y + timehelper)) * 0.5 + 0.5;
