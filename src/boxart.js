@@ -59,7 +59,7 @@ const generate = (url) => {
 	group.scale.setScalar(4);
 	group.position.z = 2;
 
-	const art = new THREE.Mesh(artGeometry, new THREE.MeshPhongMaterial({
+	/*const art = new THREE.Mesh(artGeometry, new THREE.MeshPhongMaterial({
 		color: 0xffffff,
 		map: new THREE.TextureLoader().load(url),
 		shininess: 50,
@@ -79,9 +79,9 @@ const generate = (url) => {
 	const headerClone = header.clone();
 	headerClone.position.z = box.position.z * 2 * 0.85;
 	headerClone.rotation.y = Math.PI;
-	group.add(headerClone);
+	group.add(headerClone);*/
 
-	ssrSelects.push(header, art, artClone, headerClone);
+	ssrSelects.push(/*header, art, artClone, headerClone,*/ box);
 
 	/*const disclaimer = new THREE.Mesh(disclaimerGeometry, new THREE.MeshStandardMaterial({
 		color: 0xffffff,

@@ -14,11 +14,12 @@ export default function () {
 		height: innerHeight,
 		selects: ssrSelects,
 	});
-	
+
 	ssrPass.maxDistance = 10;
 	ssrPass.blur = true;
-	ssrPass.thickness = 1;
 	ssrPass.isDistanceAttenuation = true;
+	ssrPass.thickness = 0.1;
+	ssrPass.isFresnel = true;
 	composer.addPass(ssrPass);
 
 	return composer;

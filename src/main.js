@@ -61,7 +61,7 @@ camera.position.y = 0.75;
 camera.lookAt(0, 2.5, 0);
 
 export const scene = new THREE.Scene();
-export const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
+export const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
