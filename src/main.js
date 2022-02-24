@@ -181,8 +181,8 @@ const emoteScale = 0.3;
 ** Set up scene
 */
 
-import johnsmoulsURL from "./johnsmouls.avif";
-import johnsmoulsHighlightURL from "./johnsmoulsCutout.avif";
+import johnsmoulsURL from "./johnsmouls.png";
+import johnsmoulsHighlightURL from "./johnsmoulsCutout.png";
 
 const johnCanvas = document.createElement('canvas');
 const johnContext = johnCanvas.getContext('2d');
@@ -198,7 +198,7 @@ johnImage.onload = () => {
 	johnTexture.needsUpdate = true;
 };
 
-import johnChairURL from "./johnChair.avif";
+import johnChairURL from "./johnChair.png";
 const chairImage = new Image();
 chairImage.src = johnChairURL;
 chairImage.onload = () => {
@@ -239,9 +239,9 @@ johnSoulsMesh.position.set(0, 3.02, -3);
 scene.add(johnSoulsMesh);
 
 const hatSize = 4;
-import hatURL from './hat.avif';
-import hatBlurURL from './hatBlur.avif';
-import hatDisplaceURL from './hatDisplace.avif';
+import hatURL from './hat.png';
+import hatBlurURL from './hatBlur.png';
+import hatDisplaceURL from './hatDisplace.png';
 const JohnHat = new THREE.Mesh(
 	new THREE.CylinderBufferGeometry(hatSize * 0.75, JohnWidth * 0.093, hatSize, 100, 600, true),
 	generateTurbanMat({
