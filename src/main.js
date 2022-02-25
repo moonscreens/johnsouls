@@ -124,7 +124,7 @@ function draw() {
 import getVelocity from "./getVelocity";
 
 const sceneEmoteArray = [];
-const emoteGeometry = new THREE.PlaneGeometry(1, 1);
+const emoteGeometry = new THREE.PlaneGeometry(1.5, 1.5);
 ChatInstance.listen((emotes) => {
 	const group = new THREE.Group();
 	group.position.z = johnSoulsMesh.position.z;
