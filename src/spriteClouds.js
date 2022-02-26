@@ -59,22 +59,20 @@ material.onBeforeCompile = function (shader) {
 			st *= 0.025;
 		}
 
-		float timeScaler = min(1.0, (1.0 - vWorldPosition.y) * 0.02);
-
 		float spacehelper = 1.5;
-		float timehelper = u_time * 0.05 * timeScaler;
+		float timehelper = u_time * 0.05;
 		float rotational_noise = snoise(vec3(st.x * spacehelper, st.y * spacehelper - timehelper, st.z * spacehelper + timehelper)) * 1.5;
 		spacehelper = 0.8;
-		timehelper = u_time * 0.1 * timeScaler;
+		timehelper = u_time * 0.1;
 		rotational_noise += snoise(vec3(st.x * spacehelper, st.y * spacehelper - timehelper, st.z * spacehelper + timehelper)) * 1.0;
 		//rotational_noise = pow(rotational_noise, 2.0);
 		
 		spacehelper = 0.5;
-		timehelper = u_time * 0.035 * timeScaler;
+		timehelper = u_time * 0.035;
 		float distance_noise = snoise(vec3(st.x * spacehelper, st.y * spacehelper - timehelper, st.z * spacehelper + timehelper)) * 0.75;
 		vec2 uv = vec2(cos(rotational_noise * PI * 0.15), sin(rotational_noise * PI * 0.15)) * distance_noise;
 
-		timehelper = u_time * 0.05 * timeScaler;
+		timehelper = u_time * 0.05;
 		float alpha = snoise(vec3(st.x + uv.x, st.y + uv.y, st.z + timehelper)) * 0.5 + 0.5;
 
 		// fade higher pixels out
