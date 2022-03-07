@@ -187,7 +187,6 @@ import johnsmoulsHighlightURL from "./johnsmoulsCutout.png";
 const johnCanvas = document.createElement('canvas');
 const johnContext = johnCanvas.getContext('2d');
 const johnImage = new Image();
-johnImage.src = johnsmoulsURL;
 johnImage.onload = () => {
 	johnCanvas.width = johnImage.width;
 	johnCanvas.height = johnImage.height;
@@ -197,10 +196,10 @@ johnImage.onload = () => {
 	johnContext.drawImage(johnImage, 0, 0);
 	johnTexture.needsUpdate = true;
 };
+johnImage.src = johnsmoulsURL;
 
 import johnChairURL from "./johnChair.png";
 const chairImage = new Image();
-chairImage.src = johnChairURL;
 chairImage.onload = () => {
 	chairImage.width = johnImage.width;
 	chairImage.height = johnImage.height;
@@ -210,6 +209,7 @@ chairImage.onload = () => {
 	}
 	johnTexture.needsUpdate = true;
 };
+chairImage.src = johnChairURL;
 
 const JohnWidth = 3.5;
 const JohnHeight = JohnWidth * 2;
