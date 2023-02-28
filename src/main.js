@@ -196,6 +196,12 @@ johnImage.onload = () => {
 	johnContext.drawImage(johnImage, 0, 0);
 	johnTexture.needsUpdate = true;
 };
+let johnError = false;
+johnImage.onerror = () => {
+	if (johnError) return;
+	johnError = true;
+	johnImage.src = johnsmoulsURL + "?attempt2";
+};
 johnImage.src = johnsmoulsURL;
 
 import johnChairURL from "./johnChair.png";
@@ -208,6 +214,12 @@ chairImage.onload = () => {
 		johnContext.drawImage(johnImage, 0, 0);
 	}
 	johnTexture.needsUpdate = true;
+};
+let chairError = false;
+chairImage.onerror = () => {
+	if (chairError) return;
+	chairError = true;
+	chairImage.src = johnChairURL + "?attempt2";
 };
 chairImage.src = johnChairURL;
 
